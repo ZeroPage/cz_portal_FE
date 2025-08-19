@@ -1,0 +1,85 @@
+{
+  "studies": [
+    {
+      "id": 0,
+      "name": "KING OF ALGORITHM",
+      "currentMembers": 4,
+      "totalMembers": 4,
+      "applicationCriteria": "골드 이상의 백준 실력자",
+      "greeting": "알고리즘을 더... 더...",
+      "leader": "백범준",
+      "contact" : "마감."
+    },
+    {
+      "id": 1,
+      "name": "파이썬 교실 🌱",
+      "currentMembers": 4,
+      "totalMembers": 4,
+      "applicationCriteria": "파이썬이 어려운 새내기",
+      "greeting": "파이썬 왕초보 반입니다!",
+      "leader": "백범준",
+      "contact" : "공지글 확인 부탁드립니다."
+    },
+    {
+      "id": 2,
+      "name": "기초 프로그래밍반 🌱",
+      "currentMembers": 4,
+      "totalMembers": 4,
+      "applicationCriteria": "코딩을 배우고 싶은 새내기",
+      "greeting": "기초 코딩 및 간단한 웹 사이트 제작",
+      "leader": "홍혁준",
+      "contact" : "공지글 확인 부탁드립니다."
+    },
+    {
+      "id": 3,
+      "name": "PS[Problem Solving] with C++ 🌱",
+      "currentMembers": 2,
+      "totalMembers": 2,
+      "applicationCriteria": "화요일 13~17시 중 1시간 이상 참여할 수 있어야 함.",
+      "greeting": "질문이 없으면 무엇을 알려드려야 하는지 저도 모릅니다. 모르는 것이 당연하다에 공감할 수 있는 분들이 신청해주시기 바랍니다.",
+      "leader": "김도엽",
+      "contact" : "공지글 확인 부탁드립니다."
+    },
+    {
+      "id": 4,
+      "name": "김동우의 기본 프로그래밍 교실 🌱",
+      "currentMembers": 3,
+      "totalMembers": 3,
+      "applicationCriteria": "저녁(8시 정도)이나 토요일에 오프라인으로 하실분",
+      "greeting": "기초적인 프로그래밍 문법을 다룬 뒤 스터디 원들과 상의해서 머신러닝, 딥러닝이나 웹개발 같은 것들 중 하나의 주제를 정하고 찍먹해 볼 계획입니다.",
+      "leader": "김동우",
+      "contact" : "공지글 확인 부탁드립니다."
+    },
+    {
+      "id": 5,
+      "name": "인공지능 교실 🌱",
+      "currentMembers": 4,
+      "totalMembers": 4,
+      "applicationCriteria": "인공지능을 배우고 싶은 새내기",
+      "greeting": "인공지능에 대한 전반적인 설명, 우분투랑 터미널 시작하기, c언어",
+      "leader": "김연곤",
+      "contact" : "공지글 확인 부탁드립니다."
+    },
+    {
+      "id": 6,
+      "name": "소프트웨어 새싹반 🌱",
+      "currentMembers": 4,
+      "totalMembers": 4,
+      "applicationCriteria": "전반적인 소프트웨어 지식 (C언어, 깃허브 등) 을 알고싶어 하는 새내기",
+      "greeting": "강해지고 싶은 사람 나에게로",
+      "leader": "이준형",
+      "contact" : "공지글 확인 부탁드립니다."
+    },
+    {
+      "id": 7,
+      "name": "C발점 🌱",
+      "currentMembers": 4,
+      "totalMembers": 4,
+      "applicationCriteria": "새내기 아무나",
+      "greeting": "C, C++, Python 기초 문법 학습 / 자료구조 및 알고리즘 학습",
+      "leader": "김주영",
+      "contact" : "공지글 확인 부탁드립니다."
+    }
+  ]
+}
+
