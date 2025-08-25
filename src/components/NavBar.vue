@@ -9,17 +9,38 @@
       <ul class="nav-links" :class="{ open: isMenuOpen }">
         <li><router-link to="/" @click="closeMenu">Home</router-link></li>
         <li><router-link to="/about" @click="closeMenu">About</router-link></li>
-        <li><router-link to="/baekjoonking" @click="closeMenu">BaekjoonKing</router-link></li>
-        <li><router-link to="/notice" @click="closeMenu">Notice</router-link></li>
-        <li><router-link to="/oms_week" @click="closeMenu">OMS</router-link></li>
-        <li><router-link to="/study" @click="closeMenu">Study</router-link></li>
+        <li>
+          <router-link to="/baekjoonking" @click="closeMenu"
+            >BaekjoonKing</router-link
+          >
+        </li>
+        <li>
+          <router-link to="/notice" @click="closeMenu">Notice</router-link>
+        </li>
+        <li>
+          <router-link to="/oms_week" @click="closeMenu">OMS</router-link>
+        </li>
+        <li v-if="isLoggedIn">
+          <router-link to="/attendance" @click="closeMenu"
+            >출석체크</router-link
+          >
+        </li>
+        <li v-if="isLoggedIn">
+          <router-link to="/gacha" @click="closeMenu">뽑기</router-link>
+        </li>
+        <li v-if="!isLoggedIn">
+          <router-link to="/login" @click="closeMenu">로그인</router-link>
+        </li>
+        <li v-if="isLoggedIn">
+          <a @click="logout" href="#" style="cursor: pointer">로그아웃</a>
+        </li>
       </ul>
     </div>
   </nav>
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref, onMounted, onBeforeUnmount, computed } from "vue";
 
 const isMenuOpen = ref(false);
 const navbarRef = ref(null);
@@ -32,23 +53,42 @@ const closeMenu = () => {
   isMenuOpen.value = false;
 };
 
+const logout = () => {
+  localStorage.removeItem("token");
+  isLoggedIn.value = false; // 즉시 상태 업데이트
+  closeMenu();
+  // 홈으로 리다이렉트 (필요시)
+  window.location.href = "/";
+};
+
 const handleOutsideClick = (event) => {
   if (
-      isMenuOpen.value &&
-      navbarRef.value &&
-      !navbarRef.value.contains(event.target)
+    isMenuOpen.value &&
+    navbarRef.value &&
+    !navbarRef.value.contains(event.target)
   ) {
     closeMenu();
   }
 };
 
 onMounted(() => {
-  document.addEventListener('click', handleOutsideClick);
+  document.addEventListener("click", handleOutsideClick);
+  // localStorage 변경 감지
+  window.addEventListener("storage", updateLoginStatus);
 });
 
 onBeforeUnmount(() => {
-  document.removeEventListener('click', handleOutsideClick);
+  document.removeEventListener("click", handleOutsideClick);
+  window.removeEventListener("storage", updateLoginStatus);
 });
+
+// 로그인 상태 반응형 변수
+const isLoggedIn = ref(!!localStorage.getItem("token"));
+
+// localStorage 변경 감지 함수
+const updateLoginStatus = () => {
+  isLoggedIn.value = !!localStorage.getItem("token");
+};
 </script>
 
 <style>
@@ -130,7 +170,7 @@ onBeforeUnmount(() => {
 
 .nav-links a::before,
 .nav-links a::after {
-  content: '';
+  content: "";
   position: absolute;
   width: 0;
   height: 2px;
@@ -161,9 +201,15 @@ onBeforeUnmount(() => {
 }
 
 @keyframes gradient {
-  0% { background-position: 0 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0 50%; }
+  0% {
+    background-position: 0 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
 }
 
 /* ===== Responsive ===== */
@@ -216,7 +262,6 @@ onBeforeUnmount(() => {
     font-size: 1rem;
   }
 }
-
 
 /* 480px 이하일 때: 텍스트 숨기고 이미지 보이기 */
 @media (max-width: 480px) {
