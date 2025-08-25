@@ -27,7 +27,7 @@ COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/package.json ./package.json
 
 # 프로덕션 의존성만 설치
-RUN npm ci --only=production
+RUN npm ci
 
 # 포트 노출
 EXPOSE 4173
