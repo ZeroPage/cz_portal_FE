@@ -18,23 +18,20 @@ COPY . .
 RUN npm run build
 
 # 2단계: 실행 환경 (Production Stage)
-# 빌드 결과물과 의존성을 복사하여 preview 서버 실행
+# 빌드 결과물만 복사하여 이미지 크기를 최소화합니다.
 FROM node:18-alpine
 
 # 앱 디렉터리 설정
 WORKDIR /app
 
-# package.json 복사
-COPY package*.json ./
-
-# Vite를 포함한 모든 의존성 설치 (preview 명령어를 위해)
-RUN npm ci
-
 # 빌드 단계에서 생성된 dist 폴더 복사
 COPY --from=builder /app/dist ./dist
+
+# serve 패키지 설치 (SPA 라우팅 지원)
+RUN npm install -g serve
 
 # 포트 노출
 EXPOSE 4173
 
-# Vite preview 서버로 실행 (SPA 라우팅 지원)
-CMD ["npm", "run", "preview", "--", "--host", "0.0.0.0", "--port", "4173"]
+# serve로 SPA 라우팅 지원하며 실행
+CMD ["serve", "-s", "dist", "-l", "4173"]
