@@ -34,4 +34,4 @@ RUN npm install -g serve
 EXPOSE 4173
 
 # 프로덕션 서버 실행
-CMD ["serve", "-l", "4173"]
+CMD ["serve", "dist", "-l", "4173", "--single"]

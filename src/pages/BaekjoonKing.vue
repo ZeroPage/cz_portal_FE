@@ -31,7 +31,18 @@
 
     <!-- 프로필 관리 탭 -->
     <div v-if="activeTab === 'profile'" class="tab-content">
-      <div class="profile-section">
+      <div v-if="!isLoggedIn" class="login-required">
+        <div class="login-message-card">
+          <div class="login-icon">🔐</div>
+          <h3>로그인이 필요합니다</h3>
+          <p>백준 프로필을 등록하려면 먼저 로그인해주세요.</p>
+          <router-link to="/login" class="login-btn"
+            >로그인하러 가기</router-link
+          >
+        </div>
+      </div>
+
+      <div v-else class="profile-section">
         <div class="profile-card">
           <h2>백준 프로필 등록</h2>
           <div class="input-group">
@@ -59,7 +70,18 @@
 
     <!-- 현재 랭킹 탭 -->
     <div v-if="activeTab === 'ranking'" class="tab-content">
-      <div class="ranking-section">
+      <div v-if="!isLoggedIn" class="login-required">
+        <div class="login-message-card">
+          <div class="login-icon">📊</div>
+          <h3>로그인 후 조회하실 수 있습니다</h3>
+          <p>현재 랭킹을 확인하려면 먼저 로그인해주세요.</p>
+          <router-link to="/login" class="login-btn"
+            >로그인하러 가기</router-link
+          >
+        </div>
+      </div>
+
+      <div v-else class="ranking-section">
         <div class="ranking-header">
           <h2>🔥 현재 랭킹</h2>
           <button @click="loadRanking" class="refresh-btn">새로고침</button>
@@ -112,7 +134,18 @@
 
     <!-- 명예의 전당 탭 -->
     <div v-if="activeTab === 'hall-of-fame'" class="tab-content">
-      <div class="hall-of-fame-section">
+      <div v-if="!isLoggedIn" class="login-required">
+        <div class="login-message-card">
+          <div class="login-icon">🏅</div>
+          <h3>로그인 후 조회하실 수 있습니다</h3>
+          <p>명예의 전당을 확인하려면 먼저 로그인해주세요.</p>
+          <router-link to="/login" class="login-btn"
+            >로그인하러 가기</router-link
+          >
+        </div>
+      </div>
+
+      <div v-else class="hall-of-fame-section">
         <div class="hall-header">
           <h2>🏅 명예의 전당</h2>
           <p>역대 백준킹 우승자들</p>
@@ -185,6 +218,9 @@ export default {
     };
   },
   computed: {
+    isLoggedIn() {
+      return !!localStorage.getItem("token");
+    },
     sortedRanking() {
       return [...this.rankingData].sort((a, b) => b.ratingDiff - a.ratingDiff);
     },
@@ -210,8 +246,10 @@ export default {
     },
   },
   mounted() {
-    this.loadRanking();
-    this.loadWinnerHistory();
+    if (this.isLoggedIn) {
+      this.loadRanking();
+      this.loadWinnerHistory();
+    }
   },
   methods: {
     async createProfile() {
@@ -373,6 +411,58 @@ export default {
 .tab-content {
   width: 100%;
   max-width: 900px;
+}
+
+/* 로그인 안내 스타일 */
+.login-required {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+}
+
+.login-message-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 40px;
+  text-align: center;
+  backdrop-filter: blur(12px);
+  max-width: 400px;
+  width: 100%;
+}
+
+.login-icon {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.login-message-card h3 {
+  color: white;
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+.login-message-card p {
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 25px;
+  line-height: 1.6;
+}
+
+.login-btn {
+  display: inline-block;
+  background: linear-gradient(45deg, #ff2e63, #ff6b81);
+  color: white;
+  padding: 12px 25px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 107, 129, 0.3);
 }
 
 /* 프로필 관리 스타일 */
