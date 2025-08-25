@@ -107,7 +107,7 @@
               <span v-else>{{ index + 1 }}</span>
             </div>
             <div class="user-info">
-              <div class="baekjoon-nickName">{{ user.nickName }}</div>
+              <div class="baekjoon-id">{{ user.nickName }}</div>
               <div class="user-stats">
                 <span class="rating">레이팅: {{ user.rating }}</span>
                 <span class="solved">해결: {{ user.solvedCount }}문제</span>
