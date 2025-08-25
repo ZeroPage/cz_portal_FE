@@ -9,16 +9,13 @@
               >보유 티켓: {{ userInfo.ticketCount || 0 }}장</span
             >
             <div
-              v-if="userInfo.ticketRecieved === false"
+              v-if="(userInfo.ticketCount || 0) > 0"
               class="ticket-available"
             >
               <span class="available-badge">⭐ 뽑기 이용 가능!</span>
             </div>
-            <div
-              v-else-if="userInfo.ticketRecieved === true"
-              class="ticket-received"
-            >
-              <span class="received-badge">✓ 이미 이용 완료</span>
+            <div v-else class="ticket-received">
+              <span class="received-badge">✗ 티켓 부족</span>
             </div>
           </div>
         </div>
@@ -126,16 +123,10 @@
 
             <button
               @click="drawTicket"
-              :disabled="
-                isSpinning ||
-                (userInfo.ticketCount || 0) <= 0 ||
-                userInfo.ticketRecieved === true
-              "
+              :disabled="isSpinning || (userInfo.ticketCount || 0) <= 0"
               class="gacha-button"
               :class="{
-                disabled:
-                  (userInfo.ticketCount || 0) <= 0 ||
-                  userInfo.ticketRecieved === true,
+                disabled: (userInfo.ticketCount || 0) <= 0,
                 spinning: isSpinning,
               }"
             >
@@ -303,8 +294,6 @@ export default {
 
     getButtonText() {
       if (this.isSpinning) return "뽑는 중...";
-      if (this.userInfo.ticketRecieved === true)
-        return "이미 티켓을 사용했습니다";
       if ((this.userInfo.ticketCount || 0) <= 0) return "티켓 부족";
       return "뽑기 (1티켓)";
     },
