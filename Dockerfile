@@ -24,14 +24,17 @@ FROM node:18-alpine
 # 앱 디렉터리 설정
 WORKDIR /app
 
-# 빌드 단계에서 생성된 dist 폴더만 복사
-COPY --from=builder /app/dist ./
+# package.json 복사 (preview 스크립트를 위해)
+COPY package*.json ./
 
-# serve 패키지 설치
-RUN npm install -g serve
+# 프로덕션 의존성만 설치
+RUN npm ci --only=production
+
+# 빌드 단계에서 생성된 dist 폴더 복사
+COPY --from=builder /app/dist ./dist
 
 # 포트 노출
 EXPOSE 4173
 
-# 프로덕션 서버 실행
-CMD ["serve", "dist", "-l", "4173", "--single"]
+# Vite preview 서버로 실행 (SPA 라우팅 지원)
+CMD ["npm", "run", "preview", "--", "--host", "0.0.0.0", "--port", "4173"]
