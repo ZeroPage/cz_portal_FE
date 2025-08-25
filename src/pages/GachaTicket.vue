@@ -4,9 +4,23 @@
       <div class="gacha-header">
         <h1>🎰 뽑기</h1>
         <div class="ticket-info">
-          <span class="ticket-count"
-            >티켓: {{ userInfo.ticketCount || 0 }}개</span
-          >
+          <div class="ticket-status">
+            <span class="ticket-count"
+              >티켓: {{ userInfo.ticketCount || 0 }}개</span
+            >
+            <div
+              v-if="userInfo.ticketRecieved === false"
+              class="ticket-available"
+            >
+              <span class="available-badge">🎫 티켓 수령 가능!</span>
+            </div>
+            <div
+              v-else-if="userInfo.ticketRecieved === true"
+              class="ticket-received"
+            >
+              <span class="received-badge">✅ 티켓 수령 완료</span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -39,10 +53,16 @@
 
             <button
               @click="drawTicket"
-              :disabled="isSpinning || (userInfo.ticketCount || 0) <= 0"
+              :disabled="
+                isSpinning ||
+                (userInfo.ticketCount || 0) <= 0 ||
+                userInfo.ticketRecieved === false
+              "
               class="gacha-button"
               :class="{
-                disabled: (userInfo.ticketCount || 0) <= 0,
+                disabled:
+                  (userInfo.ticketCount || 0) <= 0 ||
+                  userInfo.ticketRecieved === false,
                 spinning: isSpinning,
               }"
             >
@@ -210,6 +230,8 @@ export default {
 
     getButtonText() {
       if (this.isSpinning) return "뽑는 중...";
+      if (this.userInfo.ticketRecieved === false)
+        return "티켓 수령 후 이용 가능";
       if ((this.userInfo.ticketCount || 0) <= 0) return "티켓 부족";
       return "뽑기 (1티켓)";
     },
@@ -262,10 +284,37 @@ export default {
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
+.ticket-status {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
 .ticket-count {
   color: #ff6b81;
   font-weight: 600;
   font-size: 1.2rem;
+}
+
+.ticket-available .available-badge {
+  background: linear-gradient(45deg, #4caf50, #8bc34a);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  animation: pulse 2s infinite;
+}
+
+.ticket-received .received-badge {
+  background: rgba(76, 175, 80, 0.2);
+  color: #4caf50;
+  padding: 4px 12px;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 1px solid rgba(76, 175, 80, 0.3);
 }
 
 .gacha-main {
