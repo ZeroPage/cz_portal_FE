@@ -18,17 +18,17 @@ COPY . .
 RUN npm run build
 
 # 2단계: 실행 환경 (Production Stage)
-# 빌드 결과물과 프로덕션 의존성만 복사하여 이미지 크기를 최소화합니다.
+# 빌드 결과물과 의존성을 복사하여 preview 서버 실행
 FROM node:18-alpine
 
 # 앱 디렉터리 설정
 WORKDIR /app
 
-# package.json 복사 (preview 스크립트를 위해)
+# package.json 복사
 COPY package*.json ./
 
-# 프로덕션 의존성만 설치
-RUN npm ci --only=production
+# Vite를 포함한 모든 의존성 설치 (preview 명령어를 위해)
+RUN npm ci
 
 # 빌드 단계에서 생성된 dist 폴더 복사
 COPY --from=builder /app/dist ./dist
