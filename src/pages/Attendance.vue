@@ -78,11 +78,12 @@ export default {
       error: "",
       successMessage: "",
       currentDate: "",
+      userInfo: {},
     };
   },
   mounted() {
     this.setCurrentDate();
-    this.checkTodayAttendance();
+    this.loadUserInfo();
   },
   methods: {
     setCurrentDate() {
@@ -97,11 +98,31 @@ export default {
     },
 
     checkTodayAttendance() {
-      // localStorage에서 오늘 출석 여부 확인
-      const today = new Date().toDateString();
-      const lastAttendance = localStorage.getItem("lastAttendance");
-      if (lastAttendance === today) {
+      // API에서 받은 사용자 정보를 기반으로 출석 상태 확인
+      if (this.userInfo.attendanceToday === true) {
         this.attendanceDisabled = true;
+      }
+    },
+
+    async loadUserInfo() {
+      if (!localStorage.getItem("token")) {
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_ROOT}/auth/me`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+
+        if (response.status === 200) {
+          const result = await response.json();
+          this.userInfo = result.data;
+          this.checkTodayAttendance();
+        }
+      } catch (e) {
+        console.error("사용자 정보 로드 실패:", e);
       }
     },
 
@@ -129,8 +150,9 @@ export default {
         if (response.status === 200) {
           this.attendanceSuccess = true;
           this.successMessage = "출석체크가 완료되었습니다!";
-          // 오늘 출석 완료 기록
-          localStorage.setItem("lastAttendance", new Date().toDateString());
+
+          // 사용자 정보 다시 로드해서 상태 업데이트
+          await this.loadUserInfo();
 
           // 3초 후 성공 상태를 비활성화 상태로 변경
           setTimeout(() => {

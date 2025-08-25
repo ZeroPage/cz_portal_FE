@@ -2,23 +2,23 @@
   <div class="gacha-page">
     <div class="gacha-container">
       <div class="gacha-header">
-        <h1>🎰 뽑기</h1>
+        <h1>뽑기</h1>
         <div class="ticket-info">
           <div class="ticket-status">
             <span class="ticket-count"
-              >티켓: {{ userInfo.ticketCount || 0 }}개</span
+              >보유 티켓: {{ userInfo.ticketCount || 0 }}장</span
             >
             <div
               v-if="userInfo.ticketRecieved === false"
               class="ticket-available"
             >
-              <span class="available-badge">🎫 뽑기 이용 가능!</span>
+              <span class="available-badge">⭐ 뽑기 이용 가능!</span>
             </div>
             <div
               v-else-if="userInfo.ticketRecieved === true"
               class="ticket-received"
             >
-              <span class="received-badge">✅ 이미 이용 완료</span>
+              <span class="received-badge">✓ 이미 이용 완료</span>
             </div>
           </div>
         </div>
@@ -30,10 +30,63 @@
           <div class="machine-body">
             <div class="machine-screen" :class="{ spinning: isSpinning }">
               <div v-if="!isSpinning && !result" class="screen-idle">
-                <div class="question-mark">?</div>
+                <div class="slot-machine">
+                  <div class="slot-reel">
+                    <div class="slot-symbol">♦</div>
+                  </div>
+                  <div class="slot-reel">
+                    <div class="slot-symbol">♠</div>
+                  </div>
+                  <div class="slot-reel">
+                    <div class="slot-symbol">♣</div>
+                  </div>
+                </div>
               </div>
               <div v-else-if="isSpinning" class="screen-spinning">
-                <div class="spinner">🎲</div>
+                <div class="slot-machine">
+                  <div class="slot-reel spinning-reel">
+                    <div class="slot-symbols">
+                      <div class="slot-symbol">♦</div>
+                      <div class="slot-symbol">♠</div>
+                      <div class="slot-symbol">♣</div>
+                      <div class="slot-symbol">♥</div>
+                      <div class="slot-symbol">★</div>
+                      <div class="slot-symbol">♦</div>
+                      <div class="slot-symbol">♠</div>
+                      <div class="slot-symbol">♣</div>
+                    </div>
+                  </div>
+                  <div
+                    class="slot-reel spinning-reel"
+                    style="animation-delay: 0.1s"
+                  >
+                    <div class="slot-symbols">
+                      <div class="slot-symbol">♠</div>
+                      <div class="slot-symbol">♣</div>
+                      <div class="slot-symbol">♥</div>
+                      <div class="slot-symbol">★</div>
+                      <div class="slot-symbol">♦</div>
+                      <div class="slot-symbol">♠</div>
+                      <div class="slot-symbol">♣</div>
+                      <div class="slot-symbol">♥</div>
+                    </div>
+                  </div>
+                  <div
+                    class="slot-reel spinning-reel"
+                    style="animation-delay: 0.2s"
+                  >
+                    <div class="slot-symbols">
+                      <div class="slot-symbol">♣</div>
+                      <div class="slot-symbol">♥</div>
+                      <div class="slot-symbol">★</div>
+                      <div class="slot-symbol">♦</div>
+                      <div class="slot-symbol">♠</div>
+                      <div class="slot-symbol">♣</div>
+                      <div class="slot-symbol">♥</div>
+                      <div class="slot-symbol">★</div>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div
                 v-else-if="result"
@@ -41,12 +94,32 @@
                 :class="result.success ? 'success' : 'fail'"
               >
                 <div v-if="result.success" class="result-success">
-                  <div class="prize-icon">🎁</div>
+                  <div class="slot-machine result-slots">
+                    <div class="slot-reel">
+                      <div class="slot-symbol win">★</div>
+                    </div>
+                    <div class="slot-reel">
+                      <div class="slot-symbol win">★</div>
+                    </div>
+                    <div class="slot-reel">
+                      <div class="slot-symbol win">★</div>
+                    </div>
+                  </div>
                   <div class="prize-name">{{ result.goods }}</div>
                 </div>
                 <div v-else class="result-fail">
-                  <div class="fail-icon">💸</div>
-                  <div class="fail-text">꽝!</div>
+                  <div class="slot-machine result-slots">
+                    <div class="slot-reel">
+                      <div class="slot-symbol">♦</div>
+                    </div>
+                    <div class="slot-reel">
+                      <div class="slot-symbol">♠</div>
+                    </div>
+                    <div class="slot-reel">
+                      <div class="slot-symbol">♣</div>
+                    </div>
+                  </div>
+                  <div class="fail-text">아쉬워요!</div>
                 </div>
               </div>
             </div>
@@ -103,9 +176,9 @@
         <div class="confetti"></div>
 
         <div class="win-content">
-          <div class="win-title">🎉 축하합니다! 🎉</div>
+          <div class="win-title">★ 축하합니다! ★</div>
           <div class="win-prize">
-            <div class="prize-emoji">🎁</div>
+            <div class="prize-emoji">♦</div>
             <div class="prize-text">{{ winResult?.goods }}</div>
           </div>
           <div class="win-message">당첨되었습니다!</div>
@@ -276,12 +349,13 @@ export default {
 }
 
 .ticket-info {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 10px 20px;
-  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 15px 25px;
+  border-radius: 25px;
   display: inline-block;
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .ticket-status {
@@ -298,23 +372,24 @@ export default {
 }
 
 .ticket-available .available-badge {
-  background: linear-gradient(45deg, #4caf50, #8bc34a);
-  color: white;
-  padding: 4px 12px;
-  border-radius: 15px;
-  font-size: 0.9rem;
-  font-weight: 600;
+  background: linear-gradient(45deg, #00c851, #00ff41);
+  color: #000;
+  padding: 6px 15px;
+  border-radius: 18px;
+  font-size: 0.95rem;
+  font-weight: 700;
   animation: pulse 2s infinite;
+  box-shadow: 0 2px 10px rgba(0, 200, 81, 0.4);
 }
 
 .ticket-received .received-badge {
-  background: rgba(76, 175, 80, 0.2);
-  color: #4caf50;
-  padding: 4px 12px;
-  border-radius: 15px;
-  font-size: 0.9rem;
+  background: rgba(158, 158, 158, 0.2);
+  color: #9e9e9e;
+  padding: 6px 15px;
+  border-radius: 18px;
+  font-size: 0.95rem;
   font-weight: 600;
-  border: 1px solid rgba(76, 175, 80, 0.3);
+  border: 1px solid rgba(158, 158, 158, 0.3);
 }
 
 .gacha-main {
@@ -330,12 +405,17 @@ export default {
 }
 
 .machine-body {
-  background: rgba(255, 255, 255, 0.05);
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  padding: 40px;
-  backdrop-filter: blur(12px);
-  box-shadow: 0 8px 32px 0 rgba(200, 50, 50, 0.37);
+  background: rgba(255, 255, 255, 0.08);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-radius: 25px;
+  padding: 45px;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease;
+}
+
+.machine-body:hover {
+  transform: translateY(-5px);
 }
 
 .machine-screen {
@@ -365,10 +445,134 @@ export default {
   }
 }
 
-.screen-idle .question-mark {
-  font-size: 8rem;
+/* 슬롯 머신 스타일 */
+.slot-machine {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.slot-reel {
+  width: 70px;
+  height: 100px;
+  background: #111;
+  border: 2px solid #444;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slot-symbol {
+  font-size: 3rem;
+  color: #ff6b81;
+  font-weight: bold;
+  text-align: center;
+  line-height: 1;
+}
+
+.slot-symbol.win {
+  color: #ffd700;
+  animation: winGlow 1s infinite alternate;
+}
+
+@keyframes winGlow {
+  0% {
+    text-shadow: 0 0 10px #ffd700;
+  }
+  100% {
+    text-shadow: 0 0 20px #ffd700, 0 0 30px #ffd700;
+  }
+}
+
+.spinning-reel {
+  overflow: hidden;
+}
+
+.spinning-reel .slot-symbols {
+  display: flex;
+  flex-direction: column;
+  animation: slotSpin 0.1s linear infinite;
+}
+
+.spinning-reel .slot-symbol {
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes slotSpin {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-100px);
+  }
+}
+
+.result-slots .slot-symbol {
+  animation: resultBounce 0.6s ease-out;
+}
+
+@keyframes resultBounce {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* 화면 결과 스타일 */
+.screen-result {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.result-success {
+  text-align: center;
+  color: #4caf50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.result-success .prize-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffd700;
+}
+
+.result-fail {
+  text-align: center;
   color: #666;
-  animation: pulse 2s infinite;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.result-fail .fail-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ff6b81;
 }
 
 @keyframes pulse {
@@ -380,24 +584,6 @@ export default {
     opacity: 1;
   }
 }
-
-.screen-spinning .spinner {
-  font-size: 6rem;
-  animation: spin 0.3s linear infinite;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.screen-result {
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -419,70 +605,35 @@ export default {
   }
 }
 
-.result-success {
-  text-align: center;
-  color: #ff6b81;
-}
-
-.result-success .prize-icon {
-  font-size: 4rem;
-  margin-bottom: 10px;
-  animation: bounce 0.6s ease infinite alternate;
-}
-
-@keyframes bounce {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(-10px);
-  }
-}
-
-.result-success .prize-name {
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-.result-fail {
-  text-align: center;
-  color: #666;
-}
-
-.result-fail .fail-icon {
-  font-size: 4rem;
-  margin-bottom: 10px;
-}
-
-.result-fail .fail-text {
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
 .gacha-button {
   width: 100%;
-  padding: 15px;
+  padding: 18px;
   background: linear-gradient(45deg, #ff2e63, #ff6b81, #ffb562, #e0a04a);
   background-size: 300%;
   color: white;
   border: none;
-  border-radius: 12px;
-  font-size: 1.2rem;
-  font-weight: 600;
+  border-radius: 15px;
+  font-size: 1.3rem;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
   animation: gradient 8s linear infinite;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 15px rgba(255, 107, 129, 0.3);
 }
 
 .gacha-button:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(255, 107, 129, 0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(255, 107, 129, 0.5);
 }
 
 .gacha-button.disabled {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(120, 120, 120, 0.3);
   cursor: not-allowed;
   animation: none;
+  box-shadow: none;
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .gacha-button.spinning {
@@ -491,18 +642,24 @@ export default {
 }
 
 .prize-list {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 15px;
-  padding: 20px;
-  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  padding: 25px;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .prize-list h3 {
   color: white;
-  margin: 0 0 15px 0;
+  margin: 0 0 20px 0;
   text-align: center;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
+  font-weight: 600;
+  background: linear-gradient(45deg, #ff6b81, #ffb562);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .prize-items {
@@ -512,16 +669,18 @@ export default {
 }
 
 .prize-item {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  padding: 12px;
-  transition: transform 0.2s;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 15px;
+  transition: all 0.3s ease;
 }
 
 .prize-item:hover {
-  transform: translateX(5px);
-  border-color: rgba(255, 107, 129, 0.3);
+  transform: translateX(8px);
+  border-color: rgba(255, 107, 129, 0.4);
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 15px rgba(255, 107, 129, 0.2);
 }
 
 .prize-info {
