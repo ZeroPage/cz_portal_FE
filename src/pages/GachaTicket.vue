@@ -88,9 +88,7 @@
             <div class="prize-emoji">🎁</div>
             <div class="prize-text">{{ winResult?.goods }}</div>
           </div>
-          <div class="win-message">
-            당첨되었습니다! 상품은 3일 안에 지급해드립니다!
-          </div>
+          <div class="win-message">당첨되었습니다!</div>
           <button class="close-popup-btn" @click="closeWinPopup">확인</button>
         </div>
       </div>

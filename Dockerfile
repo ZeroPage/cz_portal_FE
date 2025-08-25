@@ -21,6 +21,10 @@ RUN npm run build
 # 빌드 결과물만 복사하여 이미지 크기를 최소화합니다.
 FROM node:18-alpine
 
+# 한국 시간대 설정
+RUN apk add --no-cache tzdata
+ENV TZ=Asia/Seoul
+
 # 앱 디렉터리 설정
 WORKDIR /app
 
