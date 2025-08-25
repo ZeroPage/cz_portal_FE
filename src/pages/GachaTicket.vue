@@ -584,6 +584,8 @@ export default {
     opacity: 1;
   }
 }
+
+.screen-result {
   display: flex;
   flex-direction: column;
   align-items: center;
