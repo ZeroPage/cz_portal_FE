@@ -177,16 +177,6 @@
                 <div class="winner-info">
                   <div class="winner-nickname">{{ winner.nickName }}</div>
                   <div class="winner-baekjoon">{{ winner.baekjoonId }}</div>
-                  <div class="winner-stats">
-                    <span
-                      >레이팅 변화: {{ winner.ratingDiff > 0 ? "+" : ""
-                      }}{{ winner.ratingDiff }}</span
-                    >
-                    <span
-                      >문제 해결: {{ winner.solvedCountDiff > 0 ? "+" : ""
-                      }}{{ winner.solvedCountDiff }}</span
-                    >
-                  </div>
                 </div>
               </div>
             </div>
