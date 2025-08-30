@@ -308,9 +308,10 @@ export default {
       try {
         // 프록시를 통한 요청 (CORS 회피)
         const response = await fetch(`${API_ROOT}/ticket/daily-attendance`, {
-          method: "GET",
+          method: "POST",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
           },
         });
 

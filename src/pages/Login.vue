@@ -101,11 +101,51 @@ export default {
   border-radius: 12px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
   color: #f1f1f1;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: relative;
+  top: auto;
+  left: auto;
+  transform: none;
+  margin-top: 40px;
+  margin-bottom: 40px;
   min-height: fit-content;
+}
+
+/* 데스크톱에서 중앙 정렬이 필요한 경우 */
+@media (min-width: 769px) {
+  .login-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: 0;
+    margin-bottom: 0;
+    /* 하지만 최소 상단 여백 확보 */
+    min-height: fit-content;
+    max-height: calc(100vh - 160px);
+    overflow-y: auto;
+  }
+  
+  /* 화면이 충분히 클 때만 중앙 정렬 */
+  @media (min-height: 800px) {
+    .login-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+  
+  /* 화면이 작을 때는 상단 정렬 */
+  @media (max-height: 799px) {
+    .login-container {
+      position: relative;
+      top: auto;
+      left: auto;
+      transform: none;
+      margin-top: 40px;
+      margin-bottom: 40px;
+    }
+  }
 }
 
 /* 모바일 대응 */
