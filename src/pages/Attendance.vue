@@ -33,13 +33,13 @@
 
           <div class="attendance-content">
             <h2 v-if="!attendanceSuccess && !attendanceDisabled">
-              오늘도 화이팅!
+              개강 해버렸지만 파이팅!
             </h2>
             <h2 v-else-if="attendanceSuccess">출석 완료!</h2>
             <h2 v-else>이미 출석했어요</h2>
 
             <p v-if="!attendanceSuccess && !attendanceDisabled" class="subtitle">
-              매일 출석해서 포인트를 모아보세요
+              종강 주세요...
             </p>
             <p v-else-if="attendanceSuccess" class="subtitle success-text">
               오늘 출석이 완료되었습니다
