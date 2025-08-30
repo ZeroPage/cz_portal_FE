@@ -7,6 +7,22 @@
         <h2>로그인이 필요합니다</h2>
         <p>뽑기를 이용하려면 로그인 후 이용해주세요</p>
         <router-link to="/login" class="login-btn">로그인하러 가기</router-link>
+        
+        <!-- 상품 확률 리스트 (로그인 안해도 보임) -->
+        <div class="prize-list-preview">
+          <h3>상품 목록</h3>
+          <div class="prize-items">
+            <div v-for="item in prizeList" :key="item.name" class="prize-item">
+              <div class="prize-info">
+                <span class="prize-name">{{ item.name }}</span>
+                <span class="prize-probability"
+                  >{{ (parseFloat(item.probability) * 100).toFixed(1) }}%</span
+                >
+              </div>
+              <div class="prize-count">재고: {{ item.count }}개</div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- 뽑기 화면 -->
@@ -209,9 +225,11 @@ export default {
     };
   },
   mounted() {
+    // 상품 목록은 로그인 여부와 관계없이 로드
+    this.loadPrizeList();
+    
     if (this.isLoggedIn) {
       this.loadUserInfo();
-      this.loadPrizeList();
     }
   },
   methods: {
@@ -233,11 +251,7 @@ export default {
 
     async loadPrizeList() {
       try {
-        const response = await fetch(`${API_ROOT}/ticket/goods-info`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
+        const response = await fetch(`${API_ROOT}/ticket/goods-info`);
         const result = await response.json();
         if (response.status === 200) {
           this.prizeList = result.data;
@@ -696,6 +710,28 @@ export default {
 .gacha-button.spinning {
   background: rgba(255, 107, 129, 0.5);
   animation: none;
+}
+
+.prize-list-preview {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  padding: 25px;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  margin-top: 30px;
+}
+
+.prize-list-preview h3 {
+  color: white;
+  margin: 0 0 20px 0;
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 600;
+  background: linear-gradient(45deg, #ff6b81, #ffb562);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .prize-list {
