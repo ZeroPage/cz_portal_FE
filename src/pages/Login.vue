@@ -3,8 +3,8 @@
     <h2>로그인</h2>
     <form @submit.prevent="handleLogin">
       <div class="form-group">
-        <label for="studentNumber">학번</label>
-        <input v-model="form.studentNumber" id="studentNumber" required />
+        <label for="userId">사용자 ID</label>
+        <input v-model="form.userId" id="userId" required />
       </div>
       <div class="form-group">
         <label for="password">비밀번호</label>
@@ -15,6 +15,14 @@
       </button>
     </form>
     <div v-if="error" class="error">{{ error }}</div>
+
+    <div class="find-account-link">
+      <p>
+        <a href="https://zeropage.org/index.php?act=dispMemberFindAccount&mid=main" target="_blank">
+          ZeroPage ID/PW 찾기
+        </a>
+      </p>
+    </div>
 
     <div class="signup-link">
       <p>계정이 없으신가요? <router-link to="/signup">회원가입</router-link></p>
@@ -30,7 +38,7 @@ export default {
   data() {
     return {
       form: {
-        studentNumber: "",
+        userId: "",
         password: "",
       },
       error: "",
@@ -65,6 +73,10 @@ export default {
           this.$router.push("/");
         } else if (result.code === "AUTH4002") {
           this.error = "이메일 또는 비밀번호가 올바르지 않습니다";
+        } else if (result.code === "AUTH4006") {
+          this.error = "이메일 인증이 필요합니다";
+        } else if (response.status === 401) {
+          this.error = "인증에 실패했습니다";
         } else {
           console.log("로그인 응답:", response.status, result);
           this.error = result.message || "로그인에 실패했습니다";
@@ -93,6 +105,63 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  min-height: fit-content;
+}
+
+/* 모바일 대응 */
+@media (max-width: 768px) {
+  .login-container {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    margin: 20px auto;
+    min-height: auto;
+    max-height: none;
+    overflow-y: visible;
+    padding: 24px;
+    max-width: 100%;
+    width: calc(100% - 20px);
+  }
+  
+  h2 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+  }
+  
+  .form-group {
+    margin-bottom: 14px;
+  }
+  
+  input {
+    padding: 14px;
+    font-size: 16px; /* iOS에서 줌 방지 */
+  }
+  
+  button {
+    padding: 14px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-container {
+    margin: 10px auto;
+    padding: 20px;
+    width: calc(100% - 10px);
+  }
+  
+  h2 {
+    font-size: 1.3rem;
+  }
+  
+  input {
+    padding: 12px;
+  }
+  
+  button {
+    padding: 12px;
+  }
 }
 
 h2 {
@@ -153,10 +222,32 @@ button:disabled {
   text-align: center;
 }
 
-.signup-link {
-  margin-top: 24px;
+.find-account-link {
+  margin-top: 16px;
   text-align: center;
-  padding-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid #444;
+}
+
+.find-account-link p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.find-account-link a {
+  color: #ff9800;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.find-account-link a:hover {
+  text-decoration: underline;
+}
+
+.signup-link {
+  margin-top: 16px;
+  text-align: center;
+  padding-top: 12px;
   border-top: 1px solid #444;
 }
 

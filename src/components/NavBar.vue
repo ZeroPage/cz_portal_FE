@@ -20,12 +20,12 @@
         <li>
           <router-link to="/oms_week" @click="closeMenu">OMS</router-link>
         </li>
-        <li v-if="isLoggedIn">
+        <li>
           <router-link to="/attendance" @click="closeMenu"
             >출석체크</router-link
           >
         </li>
-        <li v-if="isLoggedIn">
+        <li>
           <router-link to="/gacha" @click="closeMenu">뽑기</router-link>
         </li>
         <li v-if="!isLoggedIn">
@@ -97,13 +97,16 @@ const updateLoginStatus = () => {
   top: 0;
   left: 0;
   width: 100%;
-  padding: 1.2rem 5%;
+  padding: 1rem 5%;
   backdrop-filter: blur(12px);
   background: var(--glass-bg);
   border-bottom: var(--border);
   z-index: 1000;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: var(--shadow);
+  height: 80px;
+  display: flex;
+  align-items: center;
 }
 
 .navbar-container {
@@ -223,6 +226,11 @@ const updateLoginStatus = () => {
 }
 
 @media (max-width: 768px) {
+  .navbar {
+    height: 70px;
+    padding: 0.8rem 5%;
+  }
+
   .navbar-container {
     flex-wrap: wrap;
   }

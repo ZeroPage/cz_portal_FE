@@ -1,111 +1,43 @@
 <template>
   <div class="gacha-page">
     <div class="gacha-container">
-      <div class="gacha-header">
-        <h1>뽑기</h1>
-        <div class="ticket-info">
-          <div class="ticket-status">
-            <span class="ticket-count"
-              >보유 티켓: {{ userInfo.ticketCount || 0 }}장</span
-            >
-            <div
-              v-if="(userInfo.ticketCount || 0) > 0"
-              class="ticket-available"
-            >
-              <span class="available-badge">⭐ 뽑기 이용 가능!</span>
-            </div>
-            <div v-else class="ticket-received">
-              <span class="received-badge">✗ 티켓 부족</span>
-            </div>
-          </div>
-        </div>
+      <!-- 로그인 안내 화면 -->
+      <div v-if="!isLoggedIn" class="login-required">
+        <div class="login-icon">🎰</div>
+        <h2>로그인이 필요합니다</h2>
+        <p>뽑기를 이용하려면 로그인 후 이용해주세요</p>
+        <router-link to="/login" class="login-btn">로그인하러 가기</router-link>
       </div>
 
-      <div class="gacha-main">
-        <!-- 뽑기 머신 -->
-        <div class="gacha-machine">
-          <div class="machine-body">
-            <div class="machine-screen" :class="{ spinning: isSpinning }">
-              <div v-if="!isSpinning && !result" class="screen-idle">
-                <div class="slot-machine">
-                  <div class="slot-reel">
-                    <div class="slot-symbol">♦</div>
-                  </div>
-                  <div class="slot-reel">
-                    <div class="slot-symbol">♠</div>
-                  </div>
-                  <div class="slot-reel">
-                    <div class="slot-symbol">♣</div>
-                  </div>
-                </div>
-              </div>
-              <div v-else-if="isSpinning" class="screen-spinning">
-                <div class="slot-machine">
-                  <div class="slot-reel spinning-reel">
-                    <div class="slot-symbols">
-                      <div class="slot-symbol">♦</div>
-                      <div class="slot-symbol">♠</div>
-                      <div class="slot-symbol">♣</div>
-                      <div class="slot-symbol">♥</div>
-                      <div class="slot-symbol">★</div>
-                      <div class="slot-symbol">♦</div>
-                      <div class="slot-symbol">♠</div>
-                      <div class="slot-symbol">♣</div>
-                    </div>
-                  </div>
-                  <div
-                    class="slot-reel spinning-reel"
-                    style="animation-delay: 0.1s"
-                  >
-                    <div class="slot-symbols">
-                      <div class="slot-symbol">♠</div>
-                      <div class="slot-symbol">♣</div>
-                      <div class="slot-symbol">♥</div>
-                      <div class="slot-symbol">★</div>
-                      <div class="slot-symbol">♦</div>
-                      <div class="slot-symbol">♠</div>
-                      <div class="slot-symbol">♣</div>
-                      <div class="slot-symbol">♥</div>
-                    </div>
-                  </div>
-                  <div
-                    class="slot-reel spinning-reel"
-                    style="animation-delay: 0.2s"
-                  >
-                    <div class="slot-symbols">
-                      <div class="slot-symbol">♣</div>
-                      <div class="slot-symbol">♥</div>
-                      <div class="slot-symbol">★</div>
-                      <div class="slot-symbol">♦</div>
-                      <div class="slot-symbol">♠</div>
-                      <div class="slot-symbol">♣</div>
-                      <div class="slot-symbol">♥</div>
-                      <div class="slot-symbol">★</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                v-else-if="result"
-                class="screen-result"
-                :class="result.success ? 'success' : 'fail'"
+      <!-- 뽑기 화면 -->
+      <div v-else>
+        <div class="gacha-header">
+          <h1>뽑기</h1>
+          <div class="ticket-info">
+            <div class="ticket-status">
+              <span class="ticket-count"
+                >보유 티켓: {{ userInfo.ticketCount || 0 }}장</span
               >
-                <div v-if="result.success" class="result-success">
-                  <div class="slot-machine result-slots">
-                    <div class="slot-reel">
-                      <div class="slot-symbol win">★</div>
-                    </div>
-                    <div class="slot-reel">
-                      <div class="slot-symbol win">★</div>
-                    </div>
-                    <div class="slot-reel">
-                      <div class="slot-symbol win">★</div>
-                    </div>
-                  </div>
-                  <div class="prize-name">{{ result.goods }}</div>
-                </div>
-                <div v-else class="result-fail">
-                  <div class="slot-machine result-slots">
+              <div
+                v-if="(userInfo.ticketCount || 0) > 0"
+                class="ticket-available"
+              >
+                <span class="available-badge">⭐ 뽑기 이용 가능!</span>
+              </div>
+              <div v-else class="ticket-received">
+                <span class="received-badge">✗ 티켓 부족</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="gacha-main">
+          <!-- 뽑기 머신 -->
+          <div class="gacha-machine">
+            <div class="machine-body">
+              <div class="machine-screen" :class="{ spinning: isSpinning }">
+                <div v-if="!isSpinning && !result" class="screen-idle">
+                  <div class="slot-machine">
                     <div class="slot-reel">
                       <div class="slot-symbol">♦</div>
                     </div>
@@ -116,44 +48,123 @@
                       <div class="slot-symbol">♣</div>
                     </div>
                   </div>
-                  <div class="fail-text">아쉬워요!</div>
+                </div>
+                <div v-else-if="isSpinning" class="screen-spinning">
+                  <div class="slot-machine">
+                    <div class="slot-reel spinning-reel">
+                      <div class="slot-symbols">
+                        <div class="slot-symbol">♦</div>
+                        <div class="slot-symbol">♠</div>
+                        <div class="slot-symbol">♣</div>
+                        <div class="slot-symbol">♥</div>
+                        <div class="slot-symbol">★</div>
+                        <div class="slot-symbol">♦</div>
+                        <div class="slot-symbol">♠</div>
+                        <div class="slot-symbol">♣</div>
+                      </div>
+                    </div>
+                    <div
+                      class="slot-reel spinning-reel"
+                      style="animation-delay: 0.1s"
+                    >
+                      <div class="slot-symbols">
+                        <div class="slot-symbol">♠</div>
+                        <div class="slot-symbol">♣</div>
+                        <div class="slot-symbol">♥</div>
+                        <div class="slot-symbol">★</div>
+                        <div class="slot-symbol">♦</div>
+                        <div class="slot-symbol">♠</div>
+                        <div class="slot-symbol">♣</div>
+                        <div class="slot-symbol">♥</div>
+                      </div>
+                    </div>
+                    <div
+                      class="slot-reel spinning-reel"
+                      style="animation-delay: 0.2s"
+                    >
+                      <div class="slot-symbols">
+                        <div class="slot-symbol">♣</div>
+                        <div class="slot-symbol">♥</div>
+                        <div class="slot-symbol">★</div>
+                        <div class="slot-symbol">♦</div>
+                        <div class="slot-symbol">♠</div>
+                        <div class="slot-symbol">♣</div>
+                        <div class="slot-symbol">♥</div>
+                        <div class="slot-symbol">★</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  v-else-if="result"
+                  class="screen-result"
+                  :class="result.success ? 'success' : 'fail'"
+                >
+                  <div v-if="result.success" class="result-success">
+                    <div class="slot-machine result-slots">
+                      <div class="slot-reel">
+                        <div class="slot-symbol win">★</div>
+                      </div>
+                      <div class="slot-reel">
+                        <div class="slot-symbol win">★</div>
+                      </div>
+                      <div class="slot-reel">
+                        <div class="slot-symbol win">★</div>
+                      </div>
+                    </div>
+                    <div class="prize-name">{{ result.goods }}</div>
+                  </div>
+                  <div v-else class="result-fail">
+                    <div class="slot-machine result-slots">
+                      <div class="slot-reel">
+                        <div class="slot-symbol">♦</div>
+                      </div>
+                      <div class="slot-reel">
+                        <div class="slot-symbol">♠</div>
+                      </div>
+                      <div class="slot-reel">
+                        <div class="slot-symbol">♣</div>
+                      </div>
+                    </div>
+                    <div class="fail-text">아쉬워요!</div>
+                  </div>
                 </div>
               </div>
+
+              <button
+                @click="drawTicket"
+                :disabled="isSpinning || (userInfo.ticketCount || 0) <= 0"
+                class="gacha-button"
+                :class="{
+                  disabled: (userInfo.ticketCount || 0) <= 0,
+                  spinning: isSpinning,
+                }"
+              >
+                {{ getButtonText() }}
+              </button>
             </div>
-
-            <button
-              @click="drawTicket"
-              :disabled="isSpinning || (userInfo.ticketCount || 0) <= 0"
-              class="gacha-button"
-              :class="{
-                disabled: (userInfo.ticketCount || 0) <= 0,
-                spinning: isSpinning,
-              }"
-            >
-              {{ getButtonText() }}
-            </button>
           </div>
-        </div>
 
-        <!-- 상품 확률 리스트 -->
-        <div class="prize-list">
-          <h3>상품 목록</h3>
-          <div class="prize-items">
-            <div v-for="item in prizeList" :key="item.name" class="prize-item">
-              <div class="prize-info">
-                <span class="prize-name">{{ item.name }}</span>
-                <span class="prize-probability"
-                  >{{ (parseFloat(item.probability) * 100).toFixed(1) }}%</span
-                >
+          <!-- 상품 확률 리스트 -->
+          <div class="prize-list">
+            <h3>상품 목록</h3>
+            <div class="prize-items">
+              <div v-for="item in prizeList" :key="item.name" class="prize-item">
+                <div class="prize-info">
+                  <span class="prize-name">{{ item.name }}</span>
+                  <span class="prize-probability"
+                    >{{ (parseFloat(item.probability) * 100).toFixed(1) }}%</span
+                  >
+                </div>
+                <div class="prize-count">재고: {{ item.count }}개</div>
               </div>
-              <div class="prize-count">재고: {{ item.count }}개</div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div v-if="error" class="error-message">
-        {{ error }}
+        <div v-if="error" class="error-message">
+          {{ error }}
+        </div>
       </div>
     </div>
 
@@ -194,11 +205,14 @@ export default {
       error: "",
       showWinPopup: false,
       winResult: null,
+      isLoggedIn: !!localStorage.getItem("token"),
     };
   },
   mounted() {
-    this.loadUserInfo();
-    this.loadPrizeList();
+    if (this.isLoggedIn) {
+      this.loadUserInfo();
+      this.loadPrizeList();
+    }
   },
   methods: {
     async loadUserInfo() {
@@ -308,17 +322,69 @@ export default {
 
 <style scoped>
 .gacha-page {
-  min-height: 100vh;
+  min-height: calc(100vh - 80px);
   background: #0a0a0a;
   padding: 20px;
+  padding-top: 40px;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .gacha-container {
   max-width: 1000px;
   width: 100%;
+}
+
+.login-required {
+  text-align: center;
+  color: white;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 25px;
+  padding: 60px 40px;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.login-icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  opacity: 0.8;
+}
+
+.login-required h2 {
+  font-size: 1.8rem;
+  margin: 0 0 15px 0;
+  color: #ff6b81;
+}
+
+.login-required p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin: 0 0 30px 0;
+  line-height: 1.5;
+}
+
+.login-btn {
+  display: inline-block;
+  padding: 15px 30px;
+  background: linear-gradient(45deg, #ff2e63, #ff6b81, #ffb562, #e0a04a);
+  background-size: 300%;
+  color: white;
+  text-decoration: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  animation: gradient 8s linear infinite;
+}
+
+.login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 107, 129, 0.4);
 }
 
 .gacha-header {
@@ -897,14 +963,20 @@ export default {
 }
 
 @media (max-width: 768px) {
+  .gacha-page {
+    padding: 10px;
+    padding-top: 20px;
+    min-height: calc(100vh - 70px);
+  }
+
   .gacha-main {
     grid-template-columns: 1fr;
     gap: 20px;
   }
 
   .machine-screen {
-    width: 250px;
-    height: 250px;
+    width: 280px;
+    height: 280px;
   }
 
   .machine-body {
@@ -912,7 +984,59 @@ export default {
   }
 
   .gacha-header h1 {
+    font-size: 2.2rem;
+  }
+
+  .gacha-container {
+    max-width: 100%;
+  }
+
+  .ticket-info {
+    padding: 12px 20px;
+    margin: 0 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .gacha-page {
+    padding: 8px;
+    padding-top: 15px;
+  }
+
+  .machine-screen {
+    width: 240px;
+    height: 240px;
+  }
+
+  .machine-body {
+    padding: 15px;
+  }
+
+  .gacha-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .slot-reel {
+    width: 50px;
+    height: 80px;
+  }
+
+  .slot-symbol {
     font-size: 2rem;
+  }
+
+  .ticket-info {
+    padding: 10px 15px;
+    margin: 0 5px;
+  }
+
+  .ticket-count {
+    font-size: 1rem;
+  }
+
+  .available-badge, .received-badge {
+    font-size: 0.85rem;
+    padding: 4px 12px;
   }
 }
 </style>

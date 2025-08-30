@@ -44,13 +44,15 @@ export default {
 }
 
 .home-container {
-  min-height: 100vh;
+  min-height: calc(100vh - 80px);
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
   padding: 5% 5% 0;
+  padding-top: 20px;
 }
+
 .content {
   max-width: 1400px;
   width: 100%;
@@ -87,29 +89,42 @@ export default {
 /* 반응형 */
 @media (max-width: 768px) {
   .home-container {
-    padding-top: 10%;
+    min-height: calc(100vh - 70px);
+    padding: 20px;
+    padding-top: 40px;
   }
+  
+  .title {
+    font-size: 2.5rem;
+  }
+  
   .question {
     font-size: 1.2rem;
   }
 }
 
 @media (max-width: 480px) {
+  .home-container {
+    padding: 15px;
+    padding-top: 30px;
+  }
+  
   .title {
     font-size: 2rem;
   }
+  
   .full-title {
     display: inline;
   }
+  
   .short-title {
     display: none;
   }
-  .home-container {
-    padding-top: 15%;
-  }
+  
   .description {
     font-size: 1rem;
   }
+  
   .code {
     font-size: 0.85rem;
   }

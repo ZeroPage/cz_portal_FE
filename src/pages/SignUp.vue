@@ -3,16 +3,20 @@
     <h2>회원가입</h2>
     <form @submit.prevent="handleSignUp">
       <div class="form-group">
-        <label for="studentNumber">학번</label>
-        <input v-model="form.studentNumber" id="studentNumber" required />
+        <label for="userId">사용자 ID</label>
+        <input v-model="form.userId" id="userId" required />
       </div>
       <div class="form-group">
-        <label for="name">이름</label>
-        <input v-model="form.name" id="name" required />
+        <label for="emailAddress">이메일 주소</label>
+        <input v-model="form.emailAddress" id="emailAddress" type="email" required />
       </div>
       <div class="form-group">
-        <label for="nickname">닉네임</label>
-        <input v-model="form.nickname" id="nickname" required />
+        <label for="userName">실명</label>
+        <input v-model="form.userName" id="userName" required />
+      </div>
+      <div class="form-group">
+        <label for="nickName">닉네임</label>
+        <input v-model="form.nickName" id="nickName" required />
       </div>
       <div class="form-group">
         <label for="password">비밀번호</label>
@@ -50,9 +54,10 @@ export default {
   data() {
     return {
       form: {
-        studentNumber: "",
-        name: "",
-        nickname: "",
+        userId: "",
+        emailAddress: "",
+        userName: "",
+        nickName: "",
         password: "",
         confirmPassword: "",
       },
@@ -98,7 +103,17 @@ export default {
           // 홈으로 즉시 리다이렉트
           this.$router.push("/");
         } else if (result.code === "AUTH4001") {
-          this.error = "중복된 사용자입니다";
+          this.error = "이미 존재하는 사용자입니다";
+        } else if (result.code === "AUTH4005") {
+          this.error = "이미 사용 중인 이메일입니다";
+        } else if (result.code === "AUTH4007") {
+          this.error = "이미 ZeroPage에 존재하는 사용자 ID입니다";
+        } else if (result.code === "AUTH4008") {
+          this.error = "이미 ZeroPage에 등록된 이메일입니다";
+        } else if (result.code === "AUTH4009") {
+          this.error = "이미 ZeroPage에 존재하는 닉네임입니다";
+        } else if (response.status === 422) {
+          this.error = "요청 데이터 검증에 실패했습니다";
         } else {
           console.log("회원가입 응답:", response.status, result);
           this.error = result.message || "회원가입에 실패했습니다";
@@ -127,6 +142,63 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  min-height: fit-content;
+}
+
+/* 모바일 대응 */
+@media (max-width: 768px) {
+  .signup-container {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    margin: 20px auto;
+    min-height: auto;
+    max-height: none;
+    overflow-y: visible;
+    padding: 24px;
+    max-width: 100%;
+    width: calc(100% - 20px);
+  }
+  
+  h2 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+  }
+  
+  .form-group {
+    margin-bottom: 14px;
+  }
+  
+  input {
+    padding: 14px;
+    font-size: 16px; /* iOS에서 줌 방지 */
+  }
+  
+  button {
+    padding: 14px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .signup-container {
+    margin: 10px auto;
+    padding: 20px;
+    width: calc(100% - 10px);
+  }
+  
+  h2 {
+    font-size: 1.3rem;
+  }
+  
+  input {
+    padding: 12px;
+  }
+  
+  button {
+    padding: 12px;
+  }
 }
 
 h2 {
