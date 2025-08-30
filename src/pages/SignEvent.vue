@@ -15,23 +15,29 @@
 
     <transition name="fade-content">
       <div v-if="show" class="form-container">
-        <label for="baekjoon-id" class="form-label">백준 아이디</label>
-        <input
-          type="text"
-          id="baekjoon-id"
-          class="form-input"
-          v-model="baekjoonId"
-          placeholder="Enter your Baekjoon ID"
-        />
+        <div class="form-section">
+          <label for="baekjoon-id" class="form-label">백준 아이디</label>
+          <input
+            type="text"
+            id="baekjoon-id"
+            class="form-input"
+            v-model="baekjoonId"
+            placeholder="백준에서 사용하는 아이디를 입력하세요"
+          />
+          <small class="form-hint">백준 온라인 저지에서 사용하는 실제 아이디를 입력해주세요</small>
+        </div>
 
-        <label for="nickname" class="form-label">닉네임</label>
-        <input
-          type="text"
-          id="nickname"
-          class="form-input"
-          v-model="nickname"
-          placeholder="Enter your nickname"
-        />
+        <div class="form-section">
+          <label for="display-nickname" class="form-label">표시될 닉네임</label>
+          <input
+            type="text"
+            id="display-nickname"
+            class="form-input"
+            v-model="displayNickname"
+            placeholder="랭킹에 표시될 닉네임을 입력하세요"
+          />
+          <small class="form-hint">백준킹 랭킹에서 표시될 별도의 닉네임입니다 (백준 아이디와 다를 수 있음)</small>
+        </div>
 
         <button class="submit-btn" @click="startEvent">시작하기</button>
       </div>
@@ -41,7 +47,7 @@
 
 <script>
 import { onMounted, ref } from "vue";
-import axios from "axios";
+import { API_ROOT } from "@/api.js";
 
 export default {
   name: "SignEvent",
@@ -55,49 +61,65 @@ export default {
   data() {
     return {
       baekjoonId: "",
-      nickname: ""
+      displayNickname: ""
     };
   },
   methods: {
-    startEvent() {
-      if (!this.baekjoonId || !this.nickname) {
+    async startEvent() {
+      if (!this.baekjoonId || !this.displayNickname) {
         alert("모든 항목을 입력해주세요!");
         return;
       }
       
       const payload = {
-        username: this.baekjoonId, // 백엔드 DTO의 username 필드에 매핑
-        nickname: this.nickname
+        baekjoonId: this.baekjoonId,
+        displayName: this.displayNickname
       };
 
-      axios
-        .post("https://czportal.site/api/infos/post", payload)
-        .then(response => {
+      try {
+        const response = await fetch(`${API_ROOT}/baekjoon/create-profile`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            ...(localStorage.getItem("token") && {
+              Authorization: `Bearer ${localStorage.getItem("token")}`
+            })
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
           alert("정보가 성공적으로 등록되었습니다.");
-          console.log(response.data);
-        })
-        .catch(error => {
-          // error.response.data가 존재하는 경우 에러코드에 따른 예외처리
-          if (error.response && error.response.data && error.response.data.code) {
-            const code = error.response.data.code;
-            switch (code) {
+          console.log(result);
+        } else {
+          // 에러 코드에 따른 예외처리
+          if (result.code) {
+            switch (result.code) {
               case "MEMBER4003":
                 alert("사용자가 없습니다.");
                 break;
               case "MEMBER4002":
-                alert("닉네임은 필수 입니다.");
+                alert("닉네임은 필수입니다.");
                 break;
               case "MEMBER4004":
                 alert("이미 존재하는 사용자입니다.");
                 break;
+              case "MEMBER4001":
+                alert("백준 아이디가 유효하지 않습니다.");
+                break;
               default:
-                alert("정보 등록 중 오류가 발생했습니다. 백준 아이디를 확인해주세요!");
+                alert(result.message || "정보 등록 중 오류가 발생했습니다. 백준 아이디를 확인해주세요!");
             }
           } else {
             alert("정보 등록 중 오류가 발생했습니다. 백준 아이디를 확인해주세요!");
           }
-          console.error(error);
-        });
+        }
+      } catch (error) {
+        console.error("API 호출 오류:", error);
+        alert("네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+      }
     }
   }
 };
@@ -138,12 +160,17 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(12px, 4vw, 16px);
+  gap: clamp(16px, 4vw, 20px);
   background: #1e1e1e;
   padding: clamp(20px, 5vw, 30px);
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(255, 85, 125, 0.3);
   width: clamp(260px, 80vw, 360px);
+}
+
+.form-section {
+  width: 100%;
+  margin-bottom: clamp(8px, 2vw, 12px);
 }
 
 .form-label {
@@ -152,7 +179,17 @@ export default {
   text-align: left;
   width: 100%;
   font-weight: 500;
-  margin-bottom: -10px;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.form-hint {
+  display: block;
+  font-size: clamp(0.75rem, 3vw, 0.85rem);
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 4px;
+  line-height: 1.3;
+  text-align: left;
 }
 
 .form-input {
