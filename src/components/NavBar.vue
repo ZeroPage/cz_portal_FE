@@ -116,12 +116,16 @@ const updateLoginStatus = () => {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 1rem;
+  width: 100%;
+  height: 100%;
 }
 
 .logo {
   display: flex;
   align-items: center;
   height: 40px;
+  flex-shrink: 0;
+  margin-right: 2rem;
 }
 
 /* 기본값: 텍스트 보이고 이미지 숨김 */
@@ -157,7 +161,9 @@ const updateLoginStatus = () => {
   gap: 2.5rem;
   list-style: none;
   transition: max-height 0.3s ease;
-  margin-left: auto;
+  margin: 0;
+  flex: 1;
+  justify-content: flex-end;
 }
 
 .nav-links a {
@@ -218,56 +224,108 @@ const updateLoginStatus = () => {
 /* ===== Responsive ===== */
 @media (max-width: 1024px) {
   .nav-links {
-    gap: 1.5rem;
+    gap: 1.8rem;
   }
+  
   .logo {
+    margin-right: 1.5rem;
+  }
+  
+  .logo-text {
     font-size: 1.5rem;
   }
 }
 
 @media (max-width: 768px) {
   .navbar {
-    height: 70px;
-    padding: 0.8rem 5%;
+    height: 80px;
+    padding: 0.5rem 3%;
   }
 
   .navbar-container {
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    height: 100%;
+  }
+
+  .logo {
+    margin-right: 0;
+    margin-bottom: 0;
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .logo-text {
+    font-size: 1.3rem;
   }
 
   .toggle-button {
     display: block;
-    z-index: 1001; /* 혹시나 메뉴가 위에 덮이면 대비 */
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1001;
+    font-size: 1.5rem;
+    padding: 0.5rem;
   }
 
   .nav-links {
     flex-direction: column;
     width: 100%;
-    gap: 1rem;
-    margin-top: 0;
-    padding-left: 1rem;
-
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: rgba(0, 0, 0, 0.98);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    
     max-height: 0;
     overflow: hidden;
     opacity: 0;
     transition: all 0.4s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    z-index: 999;
   }
 
   .nav-links.open {
     max-height: 500px;
-    margin-top: 1rem;
     opacity: 1;
+    padding: 0.5rem 0 1rem 0;
   }
 
   .nav-links li {
     width: 100%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .nav-links li:last-child {
+    border-bottom: none;
   }
 
   .nav-links a {
     display: block;
     width: 100%;
-    padding: 0.75rem 0.5rem;
-    font-size: 1rem;
+    padding: 1.2rem 2rem;
+    font-size: 1.1rem;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+    font-weight: 500;
+  }
+
+  .nav-links a:hover {
+    background: rgba(255, 107, 129, 0.15);
+    color: #ff6b81;
+    border-left-color: #ff6b81;
+    transform: translateX(5px);
   }
 }
 

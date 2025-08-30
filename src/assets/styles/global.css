@@ -38,11 +38,11 @@ html {
 /* 모바일 대응 */
 @media (max-width: 768px) {
     body {
-        padding-top: 70px; /* 모바일에서 네비게이션 바 높이 */
+        padding-top: 80px; /* 모바일에서도 80px로 통일 */
     }
     
     .page-container {
-        min-height: calc(100vh - 70px);
+        min-height: calc(100vh - 80px);
         padding: 15px;
         justify-content: flex-start;
         padding-top: 20px;

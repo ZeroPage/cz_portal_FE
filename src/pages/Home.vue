@@ -89,7 +89,7 @@ export default {
 /* 반응형 */
 @media (max-width: 768px) {
   .home-container {
-    min-height: calc(100vh - 70px);
+    min-height: calc(100vh - 80px);
     padding: 20px;
     padding-top: 40px;
   }

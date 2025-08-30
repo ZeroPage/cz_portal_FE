@@ -966,7 +966,7 @@ export default {
   .gacha-page {
     padding: 10px;
     padding-top: 20px;
-    min-height: calc(100vh - 70px);
+    min-height: calc(100vh - 80px);
   }
 
   .gacha-main {
