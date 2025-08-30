@@ -28,15 +28,15 @@
         </div>
 
         <div class="form-section">
-          <label for="display-nickname" class="form-label">표시될 닉네임</label>
+          <label for="display-nickname" class="form-label">표시될 닉네임 (선택사항)</label>
           <input
             type="text"
             id="display-nickname"
             class="form-input"
             v-model="displayNickname"
-            placeholder="랭킹에 표시될 닉네임을 입력하세요"
+            placeholder="미입력시 기본 닉네임이 사용됩니다"
           />
-          <small class="form-hint">백준킹 랭킹에서 표시될 별도의 닉네임입니다 (백준 아이디와 다를 수 있음)</small>
+          <small class="form-hint">백준킹 랭킹에서 표시될 별도의 닉네임입니다 (비워두면 기본 닉네임 사용)</small>
         </div>
 
         <button class="submit-btn" @click="startEvent">시작하기</button>
@@ -66,15 +66,19 @@ export default {
   },
   methods: {
     async startEvent() {
-      if (!this.baekjoonId || !this.displayNickname) {
-        alert("모든 항목을 입력해주세요!");
+      if (!this.baekjoonId) {
+        alert("백준 아이디를 입력해주세요!");
         return;
       }
       
       const payload = {
-        baekjoonId: this.baekjoonId,
-        displayName: this.displayNickname
+        baekjoonId: this.baekjoonId
       };
+
+      // displayName이 입력된 경우에만 포함
+      if (this.displayNickname.trim()) {
+        payload.displayName = this.displayNickname;
+      }
 
       try {
         const response = await fetch(`${API_ROOT}/baekjoon/create-profile`, {
