@@ -24,7 +24,6 @@ const routes = [
   { path: "/sign", component: Sign },
   { path: "/rank", component: Ranking },
   { path: "/current-rank", component: CurrentRanking },
-  { path: "/baekjoonking-wait", component: BaekjoonKingWait },
   { path: "/omss", component: Omss },
   { path: "/oms/:id", component: OmsDetail },
   { path: "/attendance", component: () => import("@/pages/Attendance.vue") },

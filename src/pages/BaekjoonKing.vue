@@ -45,11 +45,18 @@
       <div v-else class="profile-section">
         <div class="profile-card">
           <h2>백준 프로필 등록</h2>
-          <div class="input-group">
+          <div class="form-group">
             <input
               v-model="baekjoonId"
               type="text"
               placeholder="백준 아이디를 입력하세요"
+              class="baekjoon-input"
+              @keyup.enter="createProfile"
+            />
+            <input
+              v-model="displayName"
+              type="text"
+              placeholder="표시될 닉네임 (선택사항)"
               class="baekjoon-input"
               @keyup.enter="createProfile"
             />
@@ -198,6 +205,7 @@ export default {
     return {
       activeTab: "ranking",
       baekjoonId: "",
+      displayName: "",
       isLoading: false,
       profileMessage: "",
       messageType: "",
@@ -248,6 +256,15 @@ export default {
       this.isLoading = true;
       this.profileMessage = "";
 
+      const payload = {
+        baekjoonId: this.baekjoonId.trim(),
+      };
+
+      // displayName이 입력된 경우에만 포함
+      if (this.displayName.trim()) {
+        payload.displayName = this.displayName.trim();
+      }
+
       try {
         const response = await fetch(`${API_ROOT}/baekjoon/create-profile`, {
           method: "POST",
@@ -255,9 +272,7 @@ export default {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-          body: JSON.stringify({
-            baekjoonId: this.baekjoonId.trim(),
-          }),
+          body: JSON.stringify(payload),
         });
 
         const result = await response.json();
@@ -266,6 +281,7 @@ export default {
           this.profileMessage = "백준 프로필이 성공적으로 등록되었습니다!";
           this.messageType = "success";
           this.baekjoonId = "";
+          this.displayName = "";
 
           // 랭킹 새로고침
           await this.loadRanking();
@@ -478,9 +494,10 @@ export default {
   font-size: 1.5rem;
 }
 
-.input-group {
+.form-group {
   display: flex;
-  gap: 10px;
+  flex-direction: column;
+  gap: 15px;
   margin-bottom: 15px;
 }
 
@@ -818,8 +835,8 @@ export default {
     width: 200px;
   }
 
-  .input-group {
-    flex-direction: column;
+  .form-group {
+    gap: 10px;
   }
 
   .ranking-header {
