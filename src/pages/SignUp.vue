@@ -8,7 +8,12 @@
       </div>
       <div class="form-group">
         <label for="emailAddress">이메일 주소</label>
-        <input v-model="form.emailAddress" id="emailAddress" type="email" required />
+        <input
+          v-model="form.emailAddress"
+          id="emailAddress"
+          type="email"
+          required
+        />
       </div>
       <div class="form-group">
         <label for="userName">실명</label>
@@ -90,7 +95,7 @@ export default {
         });
         const result = await response.json();
         if (
-          response.status === 200 &&
+          response.status === 201 &&
           result.data &&
           result.data.access_token
         ) {
@@ -161,7 +166,7 @@ export default {
     max-height: calc(100vh - 160px);
     overflow-y: auto;
   }
-  
+
   /* 화면이 충분히 클 때만 중앙 정렬 */
   @media (min-height: 800px) {
     .signup-container {
@@ -171,7 +176,7 @@ export default {
       transform: translate(-50%, -50%);
     }
   }
-  
+
   /* 화면이 작을 때는 상단 정렬 */
   @media (max-height: 799px) {
     .signup-container {
@@ -200,21 +205,21 @@ export default {
     max-width: 100%;
     width: calc(100% - 20px);
   }
-  
+
   h2 {
     margin-bottom: 20px;
     font-size: 1.5rem;
   }
-  
+
   .form-group {
     margin-bottom: 14px;
   }
-  
+
   input {
     padding: 14px;
     font-size: 16px; /* iOS에서 줌 방지 */
   }
-  
+
   button {
     padding: 14px;
     font-size: 16px;
@@ -227,15 +232,15 @@ export default {
     padding: 20px;
     width: calc(100% - 10px);
   }
-  
+
   h2 {
     font-size: 1.3rem;
   }
-  
+
   input {
     padding: 12px;
   }
-  
+
   button {
     padding: 12px;
   }
