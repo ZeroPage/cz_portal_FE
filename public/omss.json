@@ -61,6 +61,13 @@
     "subtitle": "2학기 동아리 주요 행사 안내",
     "date": "2025-09-11",
     "presenter": "CLUG X ZeroPage"
+  },
+  {
+    "id": 10,
+    "title": "슈퍼 마리오는 왜 NP-hard 문제일까?",
+    "subtitle": "p - np 문제에 대해 알아보자",
+    "date": "2025-09-18",
+    "presenter": "이준형"
   }
 ]
 
