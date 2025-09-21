@@ -199,15 +199,7 @@
       <!-- 순위 탭 -->
       <transition name="fade-content">
         <div v-if="show && activeTab === 'ranking'" class="ranking-section">
-          <h3>🏆 캐릭터 순위</h3>
-          
-          <div class="ranking-controls">
-            <select v-model="rankingOrderBy" @change="loadRanking" class="order-select">
-              <option value="eloRating">ELO 순위</option>
-              <option value="wins">승수 순위</option>
-              <option value="winrate">승률 순위</option>
-            </select>
-          </div>
+          <h3>🏆 캐릭터 순위 (ELO)</h3>
           
           <div v-if="loadingRanking" class="loading">
             <div class="spinner"></div>
@@ -286,7 +278,6 @@ export default {
     // 순위 관련
     const ranking = ref([]);
     const loadingRanking = ref(false);
-    const rankingOrderBy = ref('eloRating');
 
     // 캐릭터 생성
     const createCharacter = async () => {
@@ -394,12 +385,11 @@ export default {
       }
     };
 
-    // 순위 로드
+    // 순위 로드 (ELO 고정)
     const loadRanking = async () => {
       loadingRanking.value = true;
       try {
-        // API 명세에 따라 winRate -> winrate로 수정
-        const apiUrl = `${API_ROOT}/characters/ranking?orderBy=${rankingOrderBy.value}&limit=20`;
+        const apiUrl = `${API_ROOT}/characters/ranking`;
         console.log('순위 로드 시작:', apiUrl);
         
         const response = await fetch(apiUrl);
@@ -458,7 +448,6 @@ export default {
       loadingCharacters,
       ranking,
       loadingRanking,
-      rankingOrderBy,
       createCharacter,
       loadCharacters,
       selectCharacterForBattle,
@@ -959,21 +948,6 @@ export default {
   text-align: center;
   margin-bottom: 2rem;
   font-size: 1.5rem;
-}
-
-.ranking-controls {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 2rem;
-}
-
-.order-select {
-  padding: 0.8rem 1.5rem;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
-  color: white;
-  cursor: pointer;
 }
 
 .ranking-list {
