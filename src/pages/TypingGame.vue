@@ -174,12 +174,21 @@ export default {
     const timer = ref(null);
     const rankings = ref([]);
 
-    const targetText = `We're goin' up, up, up, it's our moment
-You know together we're glowing
-Gonna be, gonna be golden
-Oh, up, up, up with our voices
-영원히 깨질 수 없는
-Gonna be, gonna be golden`;
+    // 기존 가사 (공개 전까지 주석 처리)
+    // const targetText = `We're goin' up, up, up, it's our moment
+    // You know together we're glowing
+    // Gonna be, gonna be golden
+    // Oh, up, up, up with our voices
+    // 영원히 깨질 수 없는
+    // Gonna be, gonna be golden`;
+
+    // TBN (To Be Named) - 임시 텍스트
+    const targetText = `TBN TBN TBN TBN TBN
+TBN TBN TBN TBN TBN
+TBN TBN TBN TBN TBN
+TBN TBN TBN TBN TBN
+TBN TBN TBN TBN TBN
+TBN TBN TBN TBN TBN`;
 
     const accuracy = computed(() => {
       if (currentIndex.value === 0) return 100;

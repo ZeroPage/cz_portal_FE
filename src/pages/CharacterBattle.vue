@@ -205,7 +205,7 @@
             <select v-model="rankingOrderBy" @change="loadRanking" class="order-select">
               <option value="eloRating">ELO 순위</option>
               <option value="wins">승수 순위</option>
-              <option value="winRate">승률 순위</option>
+              <option value="winrate">승률 순위</option>
             </select>
           </div>
           
@@ -398,14 +398,26 @@ export default {
     const loadRanking = async () => {
       loadingRanking.value = true;
       try {
-        const response = await fetch(`${API_ROOT}/characters/ranking?orderBy=${rankingOrderBy.value}&limit=20`);
-        const result = await response.json();
+        // API 명세에 따라 winRate -> winrate로 수정
+        const apiUrl = `${API_ROOT}/characters/ranking?orderBy=${rankingOrderBy.value}&limit=20`;
+        console.log('순위 로드 시작:', apiUrl);
         
-        if (response.ok) {
-          ranking.value = result;
+        const response = await fetch(apiUrl);
+        
+        console.log('응답 상태:', response.status);
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
+        
+        const result = await response.json();
+        console.log('순위 데이터:', result);
+        
+        ranking.value = result;
       } catch (error) {
         console.error('순위 로드 오류:', error);
+        // 빈 배열로 설정하여 UI 깨짐 방지
+        ranking.value = [];
       } finally {
         loadingRanking.value = false;
       }

@@ -13,7 +13,7 @@
         <div v-if="show" class="event-grid">
           <div class="event-card typing-game" @click="goToTypingGame">
             <div class="card-icon">⌨️</div>
-            <h3>TBN</h3>
+            <h3>타자 빨리치기</h3>
             <p>빠르고 정확한 타이핑으로 최고 기록을 달성해보세요!</p>
             <div class="card-hover-effect"></div>
           </div>
