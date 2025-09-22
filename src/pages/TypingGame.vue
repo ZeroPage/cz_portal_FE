@@ -11,7 +11,7 @@
           <div class="input-card">
             <h3>🎁 상품 수령을 위한 연락처</h3>
             <p class="privacy-notice">
-              타자 게임 우승자에게 상품을 전달하기 위한 연락처입니다.<br>
+              타자 게임 우승자에게 상품을 전달하기 위한 연락처입니다.<br />
               <strong>행사 종료 후 모든 개인정보는 완전히 파기됩니다.</strong>
             </p>
             <input
@@ -22,8 +22,8 @@
               @keyup.enter="goToNickname"
               maxlength="50"
             />
-            <button 
-              @click="goToNickname" 
+            <button
+              @click="goToNickname"
               :disabled="!contact.trim()"
               class="next-btn"
             >
@@ -31,9 +31,9 @@
             </button>
             <div class="privacy-info">
               <small>
-                📋 개인정보 처리방침<br>
-                • 수집목적: 게임 상품 전달<br>
-                • 보관기간: 행사 종료 후 즉시 파기<br>
+                📋 개인정보 처리방침<br />
+                • 수집목적: 게임 상품 전달<br />
+                • 보관기간: 행사 종료 후 즉시 파기<br />
                 • 제3자 제공: 하지 않음
               </small>
             </div>
@@ -54,8 +54,8 @@
               @keyup.enter="startGame"
               maxlength="20"
             />
-            <button 
-              @click="startGame" 
+            <button
+              @click="startGame"
               :disabled="!nickname.trim()"
               class="start-btn"
             >
@@ -70,20 +70,25 @@
         <div v-if="show && gameState === 'playing'" class="game-section">
           <div class="game-info">
             <div class="timer">시간: {{ formatTime(elapsedTime) }}</div>
-            <div class="progress">진행률: {{ Math.round((currentIndex / targetText.length) * 100) }}%</div>
+            <div class="progress">
+              진행률:
+              {{ Math.round((currentIndex / targetText.length) * 100) }}%
+            </div>
             <div class="accuracy">정확도: {{ accuracy }}%</div>
           </div>
 
           <div class="text-display">
             <div class="text-content">
-              <span 
-                v-for="(char, index) in targetText" 
+              <span
+                v-for="(char, index) in targetText"
                 :key="index"
                 :class="{
-                  'typed-correct': index < currentIndex && typedText[index] === char,
-                  'typed-incorrect': index < currentIndex && typedText[index] !== char,
-                  'current': index === currentIndex,
-                  'untyped': index > currentIndex
+                  'typed-correct':
+                    index < currentIndex && typedText[index] === char,
+                  'typed-incorrect':
+                    index < currentIndex && typedText[index] !== char,
+                  current: index === currentIndex,
+                  untyped: index > currentIndex,
                 }"
               >
                 {{ char }}
@@ -139,10 +144,16 @@
         <div v-if="show && rankings.length > 0" class="rankings-section">
           <h3>🏆 순위</h3>
           <div class="rankings-list">
-            <div 
-              v-for="(rank, index) in rankings" 
+            <div
+              v-for="(rank, index) in rankings"
               :key="index"
-              :class="['ranking-item', { 'current-user': rank.nickname === nickname && gameState === 'finished' }]"
+              :class="[
+                'ranking-item',
+                {
+                  'current-user':
+                    rank.nickname === nickname && gameState === 'finished',
+                },
+              ]"
             >
               <span class="rank-number">{{ index + 1 }}</span>
               <span class="rank-nickname">{{ rank.nickname }}</span>
@@ -157,38 +168,29 @@
 </template>
 
 <script>
-import { ref, onMounted, computed, watch } from 'vue';
+import { ref, onMounted, computed, watch } from "vue";
 
 export default {
-  name: 'TypingGame',
+  name: "TypingGame",
   setup() {
     const show = ref(false);
-    const gameState = ref('contact'); // 'contact', 'nickname', 'playing', 'finished'
-    const contact = ref('');
-    const nickname = ref('');
+    const gameState = ref("contact"); // 'contact', 'nickname', 'playing', 'finished'
+    const contact = ref("");
+    const nickname = ref("");
     const currentIndex = ref(0);
-    const typedText = ref('');
+    const typedText = ref("");
     const startTime = ref(null);
     const endTime = ref(null);
     const elapsedTime = ref(0);
     const timer = ref(null);
     const rankings = ref([]);
 
-    // 기존 가사 (공개 전까지 주석 처리)
-    // const targetText = `We're goin' up, up, up, it's our moment
-    // You know together we're glowing
-    // Gonna be, gonna be golden
-    // Oh, up, up, up with our voices
-    // 영원히 깨질 수 없는
-    // Gonna be, gonna be golden`;
-
-    // TBN (To Be Named) - 임시 텍스트
-    const targetText = `TBN TBN TBN TBN TBN
-TBN TBN TBN TBN TBN
-TBN TBN TBN TBN TBN
-TBN TBN TBN TBN TBN
-TBN TBN TBN TBN TBN
-TBN TBN TBN TBN TBN`;
+    const targetText = `We're goin' up, up, up, it's our moment
+    You know together we're glowing
+    Gonna be, gonna be golden
+    Oh, up, up, up with our voices
+    영원히 깨질 수 없는
+    Gonna be, gonna be golden`;
 
     const accuracy = computed(() => {
       if (currentIndex.value === 0) return 100;
@@ -230,23 +232,23 @@ TBN TBN TBN TBN TBN`;
     const formatTime = (seconds) => {
       const mins = Math.floor(seconds / 60);
       const secs = seconds % 60;
-      return `${mins}:${secs.toString().padStart(2, '0')}`;
+      return `${mins}:${secs.toString().padStart(2, "0")}`;
     };
 
     const goToNickname = () => {
       if (!contact.value.trim()) return;
-      gameState.value = 'nickname';
+      gameState.value = "nickname";
     };
 
     const startGame = () => {
       if (!nickname.value.trim()) return;
-      
-      gameState.value = 'playing';
-      typedText.value = '';
+
+      gameState.value = "playing";
+      typedText.value = "";
       currentIndex.value = 0;
       startTime.value = Date.now();
       elapsedTime.value = 0;
-      
+
       timer.value = setInterval(() => {
         elapsedTime.value = Math.round((Date.now() - startTime.value) / 1000);
       }, 1000);
@@ -255,7 +257,7 @@ TBN TBN TBN TBN TBN`;
     const onInput = () => {
       // 현재 입력 위치 업데이트
       currentIndex.value = typedText.value.length;
-      
+
       // 게임 완료 체크
       if (typedText.value === targetText) {
         finishGame();
@@ -264,13 +266,13 @@ TBN TBN TBN TBN TBN`;
 
     const finishGame = () => {
       endTime.value = Date.now();
-      gameState.value = 'finished';
-      
+      gameState.value = "finished";
+
       if (timer.value) {
         clearInterval(timer.value);
         timer.value = null;
       }
-      
+
       // 결과를 로컬 스토리지에 저장
       saveResult();
     };
@@ -282,39 +284,41 @@ TBN TBN TBN TBN TBN`;
         time: finalTime.value,
         wpm: wpm.value,
         accuracy: finalAccuracy.value,
-        date: new Date().toISOString()
+        date: new Date().toISOString(),
       };
-      
-      const existingRankings = JSON.parse(localStorage.getItem('typingGameRankings') || '[]');
+
+      const existingRankings = JSON.parse(
+        localStorage.getItem("typingGameRankings") || "[]"
+      );
       existingRankings.push(result);
-      
+
       // 시간 순으로 정렬 (빠른 시간이 위로)
       existingRankings.sort((a, b) => a.time - b.time);
-      
+
       // 상위 10개만 유지
       const topRankings = existingRankings.slice(0, 10);
-      
-      localStorage.setItem('typingGameRankings', JSON.stringify(topRankings));
+
+      localStorage.setItem("typingGameRankings", JSON.stringify(topRankings));
       loadRankings();
     };
 
     const loadRankings = () => {
-      const saved = localStorage.getItem('typingGameRankings');
+      const saved = localStorage.getItem("typingGameRankings");
       if (saved) {
         rankings.value = JSON.parse(saved);
       }
     };
 
     const resetGame = () => {
-      gameState.value = 'contact';
-      contact.value = '';
-      nickname.value = '';
-      typedText.value = '';
+      gameState.value = "contact";
+      contact.value = "";
+      nickname.value = "";
+      typedText.value = "";
       currentIndex.value = 0;
       startTime.value = null;
       endTime.value = null;
       elapsedTime.value = 0;
-      
+
       if (timer.value) {
         clearInterval(timer.value);
         timer.value = null;
@@ -346,9 +350,9 @@ TBN TBN TBN TBN TBN`;
       goToNickname,
       startGame,
       onInput,
-      resetGame
+      resetGame,
     };
-  }
+  },
 };
 </script>
 
@@ -394,9 +398,15 @@ TBN TBN TBN TBN TBN`;
 }
 
 @keyframes gradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .nickname-section {
@@ -553,7 +563,7 @@ TBN TBN TBN TBN TBN`;
 .text-content {
   font-size: 1.3rem;
   line-height: 1.8;
-  font-family: 'Courier New', monospace;
+  font-family: "Courier New", monospace;
   letter-spacing: 1px;
   white-space: pre-wrap;
   word-break: break-all;
@@ -561,23 +571,29 @@ TBN TBN TBN TBN TBN`;
 
 .typed-correct {
   background-color: rgba(76, 175, 80, 0.3);
-  color: #4CAF50;
+  color: #4caf50;
 }
 
 .typed-incorrect {
   background-color: rgba(244, 67, 54, 0.3);
-  color: #F44336;
+  color: #f44336;
 }
 
 .current {
   background-color: rgba(255, 235, 59, 0.5);
-  color: #FFC107;
+  color: #ffc107;
   animation: blink 1s infinite;
 }
 
 @keyframes blink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0.3; }
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0.3;
+  }
 }
 
 .untyped {
@@ -593,7 +609,7 @@ TBN TBN TBN TBN TBN`;
   background: rgba(255, 255, 255, 0.05);
   color: white;
   font-size: 1.1rem;
-  font-family: 'Courier New', monospace;
+  font-family: "Courier New", monospace;
   resize: vertical;
   transition: all 0.3s ease;
 }
@@ -662,7 +678,8 @@ TBN TBN TBN TBN TBN`;
   justify-content: center;
 }
 
-.restart-btn, .back-btn {
+.restart-btn,
+.back-btn {
   padding: 0.8rem 1.5rem;
   border-radius: 10px;
   font-weight: 600;
@@ -684,7 +701,8 @@ TBN TBN TBN TBN TBN`;
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.restart-btn:hover, .back-btn:hover {
+.restart-btn:hover,
+.back-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
@@ -738,7 +756,8 @@ TBN TBN TBN TBN TBN`;
   font-weight: 600;
 }
 
-.rank-time, .rank-wpm {
+.rank-time,
+.rank-wpm {
   text-align: center;
   font-size: 0.9rem;
   color: rgba(255, 255, 255, 0.8);
@@ -782,7 +801,8 @@ TBN TBN TBN TBN TBN`;
     font-size: 0.9rem;
   }
 
-  .rank-time, .rank-wpm {
+  .rank-time,
+  .rank-wpm {
     font-size: 0.8rem;
   }
 }

@@ -6,6 +6,13 @@
           <span class="full-title">CLUG X ZeroPage</span>
         </h1>
       </transition>
+      <div class="qr-section">
+        <img
+          src="/images/QR 코드.png"
+          alt="동아리 신청 QR 코드"
+          class="qr-code"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -28,6 +35,20 @@ export default {
 </script>
 
 <style scoped>
+.qr-section {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.qr-code {
+  width: 200px;
+  height: auto;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
 .fade-title-enter-active {
   transition: opacity 0.8s ease, transform 0.6s ease;
 }
@@ -93,11 +114,11 @@ export default {
     padding: 20px;
     padding-top: 40px;
   }
-  
+
   .title {
     font-size: 2.5rem;
   }
-  
+
   .question {
     font-size: 1.2rem;
   }
@@ -108,23 +129,23 @@ export default {
     padding: 15px;
     padding-top: 30px;
   }
-  
+
   .title {
     font-size: 2rem;
   }
-  
+
   .full-title {
     display: inline;
   }
-  
+
   .short-title {
     display: none;
   }
-  
+
   .description {
     font-size: 1rem;
   }
-  
+
   .code {
     font-size: 0.85rem;
   }
