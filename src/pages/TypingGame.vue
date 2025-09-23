@@ -102,8 +102,39 @@
               @input="onInput"
               class="typing-input"
               placeholder="여기에 위 텍스트를 그대로 입력하세요..."
-              :disabled="gameState !== 'playing'"
+              :disabled="!isGameStarted || gameState !== 'playing'"
             ></textarea>
+          </div>
+          
+          <!-- 게임 컨트롤 버튼들 -->
+          <div class="game-controls">
+            <button 
+              v-if="!isGameStarted"
+              @click="startTyping"
+              class="control-btn start-btn"
+            >
+              ⏱️ 타이핑 시작
+            </button>
+            
+            <button 
+              v-if="isGameStarted && canFinishGame"
+              @click="finishGame"
+              class="control-btn finish-btn"
+            >
+              ✅ 게임 완료
+            </button>
+            
+            <div v-if="isGameStarted && !canFinishGame" class="finish-requirements">
+              <p>게임 완료 조건:</p>
+              <ul>
+                <li :class="{ completed: progress === 100 }">
+                  📊 진행률 100% {{ progress === 100 ? '✅' : `(현재 ${progress}%)` }}
+                </li>
+                <li :class="{ completed: hasNoErrors }">
+                  ✨ 오타 없음 {{ hasNoErrors ? '✅' : '❌' }}
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </transition>
@@ -184,6 +215,7 @@ export default {
     const elapsedTime = ref(0);
     const timer = ref(null);
     const rankings = ref([]);
+    const isGameStarted = ref(false); // 게임 시작 여부
 
     // 원래 가사로 복원
     const targetText = `We're goin' up, up, up, it's our moment
@@ -222,6 +254,26 @@ Gonna be, gonna be golden`;
       return 0;
     });
 
+    // 진행률 계산
+    const progress = computed(() => {
+      return Math.round((currentIndex.value / targetText.length) * 100);
+    });
+
+    // 오타 체크
+    const hasNoErrors = computed(() => {
+      for (let i = 0; i < currentIndex.value; i++) {
+        if (typedText.value[i] !== targetText[i]) {
+          return false;
+        }
+      }
+      return true;
+    });
+
+    // 게임 완료 가능 여부
+    const canFinishGame = computed(() => {
+      return isGameStarted.value && progress.value === 100 && hasNoErrors.value;
+    });
+
     const wpm = computed(() => {
       if (finalTime.value === 0) return 0;
       // WPM = (타자 수 / 5) / (시간(분))
@@ -247,6 +299,13 @@ Gonna be, gonna be golden`;
       gameState.value = "playing";
       typedText.value = "";
       currentIndex.value = 0;
+      // 아직 타이핑 시작하지 않음
+      isGameStarted.value = false;
+    };
+
+    // 새로운 타이핑 시작 함수
+    const startTyping = () => {
+      isGameStarted.value = true;
       startTime.value = Date.now();
       elapsedTime.value = 0;
 
@@ -256,16 +315,18 @@ Gonna be, gonna be golden`;
     };
 
     const onInput = () => {
+      // 게임이 시작되지 않았으면 입력 차단
+      if (!isGameStarted.value) return;
+      
       // 현재 입력 위치 업데이트
       currentIndex.value = typedText.value.length;
 
-      // 게임 완료 체크
-      if (typedText.value === targetText) {
-        finishGame();
-      }
+      // 자동 완료는 제거 (수동으로만 완료 가능)
     };
 
     const finishGame = () => {
+      if (!canFinishGame.value) return;
+      
       endTime.value = Date.now();
       gameState.value = "finished";
 
@@ -347,10 +408,16 @@ Gonna be, gonna be golden`;
       finalTime,
       wpm,
       rankings,
+      isGameStarted,
+      progress,
+      hasNoErrors,
+      canFinishGame,
       formatTime,
       goToNickname,
       startGame,
+      startTyping,
       onInput,
+      finishGame,
       resetGame,
     };
   },
@@ -762,6 +829,78 @@ Gonna be, gonna be golden`;
   text-align: center;
   font-size: 0.9rem;
   color: rgba(255, 255, 255, 0.8);
+}
+
+/* 게임 컨트롤 버튼 스타일 */
+.game-controls {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.control-btn {
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 0 0.5rem;
+}
+
+.start-btn {
+  background: linear-gradient(45deg, #4CAF50, #45a049);
+  color: white;
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.start-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+}
+
+.finish-btn {
+  background: linear-gradient(45deg, #ff6b81, #ff5722);
+  color: white;
+  box-shadow: 0 4px 15px rgba(255, 107, 129, 0.3);
+}
+
+.finish-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 107, 129, 0.4);
+}
+
+.finish-requirements {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.finish-requirements p {
+  color: white;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.finish-requirements ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.finish-requirements li {
+  padding: 0.5rem 0;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.finish-requirements li.completed {
+  color: #4CAF50;
+  font-weight: 600;
 }
 
 /* 모바일 대응 */
