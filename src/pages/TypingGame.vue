@@ -130,9 +130,6 @@
                 <li :class="{ completed: progress === 100 }">
                   📊 진행률 100% {{ progress === 100 ? '✅' : `(현재 ${progress}%)` }}
                 </li>
-                <li :class="{ completed: hasNoErrors }">
-                  ✨ 오타 없음 {{ hasNoErrors ? '✅' : '❌' }}
-                </li>
               </ul>
             </div>
           </div>
@@ -269,9 +266,9 @@ Gonna be, gonna be golden`;
       return true;
     });
 
-    // 게임 완료 가능 여부
+    // 게임 완료 가능 여부 (진행률 100%만 체크)
     const canFinishGame = computed(() => {
-      return isGameStarted.value && progress.value === 100 && hasNoErrors.value;
+      return isGameStarted.value && progress.value === 100;
     });
 
     const wpm = computed(() => {
