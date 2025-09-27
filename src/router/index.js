@@ -11,10 +11,6 @@ import Ranking from "@/pages/Ranking.vue";
 import CurrentRanking from "@/pages/CurrentRanking.vue";
 import Omss from "@/pages/omss.vue";
 import OmsDetail from "@/pages/omsDetail.vue";
-import Event from "@/pages/Event.vue";
-import TypingGame from "@/pages/TypingGame.vue";
-import TarotReading from "@/pages/TarotReading.vue";
-import CharacterBattle from "@/pages/CharacterBattle.vue";
 
 const routes = [
   { path: "/", component: Home },
@@ -31,10 +27,6 @@ const routes = [
   { path: "/oms/:id", component: OmsDetail },
   { path: "/attendance", component: () => import("@/pages/Attendance.vue") },
   { path: "/gacha", component: () => import("@/pages/GachaTicket.vue") },
-  { path: "/event", component: Event },
-  { path: "/event/typing-game", component: TypingGame },
-  { path: "/event/tarot", component: TarotReading },
-  { path: "/event/character-battle", component: CharacterBattle },
   { path: "/login", component: () => import("@/pages/Login.vue") },
   { path: "/signup", component: () => import("@/pages/SignUp.vue") },
 ];

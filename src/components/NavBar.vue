@@ -28,9 +28,6 @@
         <li>
           <router-link to="/gacha" @click="closeMenu">뽑기</router-link>
         </li>
-        <li>
-          <router-link to="/event" @click="closeMenu">Event</router-link>
-        </li>
         <li v-if="!isLoggedIn">
           <router-link to="/login" @click="closeMenu">로그인</router-link>
         </li>
