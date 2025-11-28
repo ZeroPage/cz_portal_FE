@@ -176,6 +176,23 @@
               </div>
             </div>
           </div>
+          
+          <!-- 내 뛽기 기록 -->
+          <div v-if="Object.keys(prizeCounts).length > 0" class="my-prize-history">
+            <h3>🏆 내 뽑기 기록</h3>
+            <div class="my-prize-items">
+              <div v-for="(count, prizeName) in prizeCounts" :key="prizeName" class="my-prize-item">
+                <div class="my-prize-info">
+                  <span class="my-prize-name">{{ prizeName }}</span>
+                  <span class="my-prize-count">{{ count }}개</span>
+                </div>
+                <div class="my-prize-badge">당첨!</div>
+              </div>
+            </div>
+            <div class="total-wins">
+              총 당첨 횟수: <strong>{{ userPrizeHistory.length }}번</strong>
+            </div>
+          </div>
         </div>
 
         <div v-if="error" class="error-message">
@@ -222,6 +239,8 @@ export default {
       showWinPopup: false,
       winResult: null,
       isLoggedIn: !!localStorage.getItem("token"),
+      userPrizeHistory: [], // 사용자 뛽기 기록
+      prizeCounts: {}, // 상품별 개수 집계
     };
   },
   mounted() {
@@ -229,7 +248,7 @@ export default {
     this.loadPrizeList();
     
     if (this.isLoggedIn) {
-      this.loadUserInfo();
+      this.loadUserInfo(); // 이 안에서 뽑기 기록도 로드됨
     }
   },
   methods: {
@@ -243,6 +262,8 @@ export default {
         const result = await response.json();
         if (response.status === 200) {
           this.userInfo = result.data;
+          // 사용자 정보 로드 후 뽑기 기록 로드
+          this.loadUserPrizeHistory();
         }
       } catch (e) {
         console.error("사용자 정보 로드 실패:", e);
@@ -300,6 +321,10 @@ export default {
             setTimeout(() => {
               this.showWinPopup = true;
             }, 500); // 결과 화면이 잠깐 보인 후 팝업
+            // 뛽기 기록 다시 로드
+            setTimeout(() => {
+              this.loadUserPrizeHistory();
+            }, 1000);
           }
           // 티켓 개수 업데이트
           this.userInfo.ticketCount -= 1;
@@ -329,6 +354,35 @@ export default {
     closeWinPopup() {
       this.showWinPopup = false;
       this.winResult = null;
+    },
+
+    async loadUserPrizeHistory() {
+      try {
+        const response = await fetch(`${API_ROOT}/prizes/user/${this.userInfo.userId}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        const result = await response.json();
+        if (response.status === 200) {
+          this.userPrizeHistory = result;
+          this.calculatePrizeCounts();
+        }
+      } catch (e) {
+        console.error("뛽기 기록 로드 실패:", e);
+      }
+    },
+
+    calculatePrizeCounts() {
+      const counts = {};
+      this.userPrizeHistory.forEach(record => {
+        if (counts[record.prizeName]) {
+          counts[record.prizeName]++;
+        } else {
+          counts[record.prizeName] = 1;
+        }
+      });
+      this.prizeCounts = counts;
     },
   },
 };
@@ -818,6 +872,124 @@ export default {
   100% {
     background-position: 0 50%;
   }
+}
+
+/* 내 뛽기 기록 스타일 */
+.my-prize-history {
+  background: rgba(255, 215, 0, 0.08);
+  border: 1px solid rgba(255, 215, 0, 0.25);
+  border-radius: 20px;
+  padding: 25px;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 4px 20px rgba(255, 215, 0, 0.1);
+  margin-top: 20px;
+}
+
+.my-prize-history h3 {
+  color: #ffd700;
+  margin: 0 0 20px 0;
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 600;
+  text-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
+}
+
+.my-prize-items {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.my-prize-item {
+  background: rgba(255, 215, 0, 0.1);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  border-radius: 12px;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.my-prize-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent);
+  transition: left 0.6s;
+}
+
+.my-prize-item:hover::before {
+  left: 100%;
+}
+
+.my-prize-item:hover {
+  transform: translateX(8px);
+  border-color: rgba(255, 215, 0, 0.5);
+  background: rgba(255, 215, 0, 0.15);
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
+}
+
+.my-prize-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
+}
+
+.my-prize-name {
+  color: white;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.my-prize-count {
+  color: #ffd700;
+  font-weight: 700;
+  font-size: 1.2rem;
+  text-shadow: 0 1px 5px rgba(255, 215, 0, 0.3);
+}
+
+.my-prize-badge {
+  background: linear-gradient(45deg, #ff6b81, #ff8a5b);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-left: 15px;
+  animation: badgeGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes badgeGlow {
+  0% {
+    box-shadow: 0 2px 10px rgba(255, 107, 129, 0.3);
+  }
+  100% {
+    box-shadow: 0 4px 20px rgba(255, 107, 129, 0.6);
+  }
+}
+
+.total-wins {
+  text-align: center;
+  color: #ffd700;
+  font-size: 1.2rem;
+  padding: 15px;
+  background: rgba(255, 215, 0, 0.1);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  font-weight: 500;
+}
+
+.total-wins strong {
+  font-size: 1.4rem;
+  text-shadow: 0 2px 10px rgba(255, 215, 0, 0.4);
 }
 
 /* 당첨 팝업 스타일 */
