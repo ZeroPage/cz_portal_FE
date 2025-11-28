@@ -29,6 +29,11 @@
           <router-link to="/gacha" @click="closeMenu">뽑기</router-link>
         </li>
         <li>
+          <router-link to="/lucky-draw" @click="closeMenu"
+            >럭키드로우</router-link
+          >
+        </li>
+        <li>
           <router-link to="/event" @click="closeMenu">Event</router-link>
         </li>
         <li v-if="!isLoggedIn">
@@ -229,11 +234,11 @@ const updateLoginStatus = () => {
   .nav-links {
     gap: 1.8rem;
   }
-  
+
   .logo {
     margin-right: 1.5rem;
   }
-  
+
   .logo-text {
     font-size: 1.5rem;
   }
@@ -288,7 +293,7 @@ const updateLoginStatus = () => {
     background: rgba(0, 0, 0, 0.98);
     backdrop-filter: blur(12px);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-    
+
     max-height: 0;
     overflow: hidden;
     opacity: 0;

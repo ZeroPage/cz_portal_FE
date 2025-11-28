@@ -15,6 +15,7 @@ import Event from "@/pages/Event.vue";
 import TypingGame from "@/pages/TypingGame.vue";
 import TarotReading from "@/pages/TarotReading.vue";
 import CharacterBattle from "@/pages/CharacterBattle.vue";
+import LuckyDraw from "@/pages/LuckyDraw.vue";
 
 const routes = [
   { path: "/", component: Home },
@@ -35,6 +36,7 @@ const routes = [
   { path: "/event/typing-game", component: TypingGame },
   { path: "/event/tarot", component: TarotReading },
   { path: "/event/character-battle", component: CharacterBattle },
+  { path: "/lucky-draw", component: LuckyDraw },
   { path: "/login", component: () => import("@/pages/Login.vue") },
   { path: "/signup", component: () => import("@/pages/SignUp.vue") },
 ];
