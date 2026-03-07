@@ -371,7 +371,7 @@ export default {
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 20px;
   padding: 60px 40px;
-  box-shadow: 0 8px 32px 0 rgba(200, 50, 50, 0.37);
+  box-shadow: 0 8px 32px 0 rgba(50, 50, 200, 0.37);
   backdrop-filter: blur(12px);
 }
 
@@ -384,7 +384,7 @@ export default {
 .login-required h2 {
   font-size: 1.8rem;
   margin: 0 0 15px 0;
-  color: #ff6b81;
+  color: #6b81ff;
 }
 
 .login-required p {
@@ -397,7 +397,7 @@ export default {
 .login-btn {
   display: inline-block;
   padding: 15px 30px;
-  background: linear-gradient(45deg, #ff2e63, #ff6b81, #ffb562, #e0a04a);
+  background: linear-gradient(45deg, #2e63ff, #6b81ff, #b562ff, #a04ae0);
   background-size: 300%;
   color: white;
   text-decoration: none;
@@ -423,7 +423,7 @@ export default {
   font-size: 2.5rem;
   margin: 0 0 10px 0;
   font-weight: 700;
-  background: linear-gradient(45deg, #ff2e63, #ff6b81, #ffb562, #e0a04a);
+  background: linear-gradient(45deg, #2e63ff, #6b81ff, #b562ff, #a04ae0);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -471,7 +471,7 @@ export default {
 
 .check-circle.success {
   background: rgba(255, 107, 129, 0.2);
-  border-color: #ff6b81;
+  border-color: #6b81ff;
   animation: successPulse 0.6s ease-out;
 }
 
@@ -486,7 +486,7 @@ export default {
 }
 
 .check-circle.success .icon {
-  color: #ff6b81;
+  color: #6b81ff;
 }
 
 .check-circle.disabled .icon {
@@ -522,7 +522,7 @@ export default {
 }
 
 .success-text {
-  color: #ff6b81;
+  color: #6b81ff;
 }
 
 .disabled-text {
@@ -532,7 +532,7 @@ export default {
 .attendance-btn {
   width: 100%;
   padding: 15px;
-  background: linear-gradient(45deg, #ff2e63, #ff6b81, #ffb562, #e0a04a);
+  background: linear-gradient(45deg, #2e63ff, #6b81ff, #b562ff, #a04ae0);
   background-size: 300%;
   color: white;
   border: none;
@@ -550,7 +550,7 @@ export default {
 }
 
 .attendance-btn.success {
-  background: #ff6b81;
+  background: #6b81ff;
   animation: none;
 }
 
@@ -613,7 +613,7 @@ export default {
   font-size: 1.4rem;
   margin: 0 0 10px 0;
   color: white;
-  background: linear-gradient(45deg, #ff2e63, #ff6b81, #ffb562, #e0a04a);
+  background: linear-gradient(45deg, #2e63ff, #6b81ff, #b562ff, #a04ae0);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -642,7 +642,7 @@ export default {
   text-align: center;
   padding: 8px;
   font-weight: 600;
-  color: #ff6b81;
+  color: #6b81ff;
   font-size: 0.9rem;
 }
 
@@ -672,7 +672,7 @@ export default {
 
 .calendar-day.today {
   background: rgba(255, 107, 129, 0.3);
-  border-color: #ff6b81;
+  border-color: #6b81ff;
   box-shadow: 0 0 10px rgba(255, 107, 129, 0.5);
 }
 

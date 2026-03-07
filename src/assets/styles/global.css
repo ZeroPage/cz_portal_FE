@@ -6,10 +6,10 @@
 }
 
 :root {
-    --gradient: linear-gradient(45deg, #ff2e63, #ff6b81, #ffb562, #e0a04a);
+    --gradient: linear-gradient(45deg, #2e63ff, #6b81ff, #b562ff, #a04ae0);
     --glass-bg: rgba(255, 255, 255, 0.05);
     --border: 1px solid rgba(255, 255, 255, 0.1);
-    --shadow: 0 8px 32px 0 rgba(200, 50, 50, 0.37);
+    --shadow: 0 8px 32px 0 rgba(50, 50, 200, 0.37);
 }
 
 body {

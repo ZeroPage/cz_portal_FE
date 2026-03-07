@@ -426,7 +426,7 @@ export default {
 .login-required h2 {
   font-size: 1.8rem;
   margin: 0 0 15px 0;
-  color: #ff6b81;
+  color: #6b81ff;
 }
 
 .login-required p {
@@ -439,7 +439,7 @@ export default {
 .login-btn {
   display: inline-block;
   padding: 15px 30px;
-  background: linear-gradient(45deg, #ff2e63, #ff6b81, #ffb562, #e0a04a);
+  background: linear-gradient(45deg, #2e63ff, #6b81ff, #b562ff, #a04ae0);
   background-size: 300%;
   color: white;
   text-decoration: none;
@@ -463,7 +463,7 @@ export default {
 .gacha-header h1 {
   font-size: 3rem;
   margin: 0 0 15px 0;
-  background: linear-gradient(45deg, #ff2e63, #ff6b81, #ffb562, #e0a04a);
+  background: linear-gradient(45deg, #2e63ff, #6b81ff, #b562ff, #a04ae0);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -489,7 +489,7 @@ export default {
 }
 
 .ticket-count {
-  color: #ff6b81;
+  color: #6b81ff;
   font-weight: 600;
   font-size: 1.2rem;
 }
@@ -561,10 +561,10 @@ export default {
 
 @keyframes screenGlow {
   0% {
-    box-shadow: 0 0 10px #ff6b81;
+    box-shadow: 0 0 10px #6b81ff;
   }
   100% {
-    box-shadow: 0 0 30px #ff2e63;
+    box-shadow: 0 0 30px #2e63ff;
   }
 }
 
@@ -593,23 +593,23 @@ export default {
 
 .slot-symbol {
   font-size: 3rem;
-  color: #ff6b81;
+  color: #6b81ff;
   font-weight: bold;
   text-align: center;
   line-height: 1;
 }
 
 .slot-symbol.win {
-  color: #ffd700;
+  color: #d700ff;
   animation: winGlow 1s infinite alternate;
 }
 
 @keyframes winGlow {
   0% {
-    text-shadow: 0 0 10px #ffd700;
+    text-shadow: 0 0 10px #d700ff;
   }
   100% {
-    text-shadow: 0 0 20px #ffd700, 0 0 30px #ffd700;
+    text-shadow: 0 0 20px #d700ff, 0 0 30px #d700ff;
   }
 }
 
@@ -733,7 +733,7 @@ export default {
 .gacha-button {
   width: 100%;
   padding: 18px;
-  background: linear-gradient(45deg, #ff2e63, #ff6b81, #ffb562, #e0a04a);
+  background: linear-gradient(45deg, #2e63ff, #6b81ff, #b562ff, #a04ae0);
   background-size: 300%;
   color: white;
   border: none;
@@ -782,7 +782,7 @@ export default {
   text-align: center;
   font-size: 1.4rem;
   font-weight: 600;
-  background: linear-gradient(45deg, #ff6b81, #ffb562);
+  background: linear-gradient(45deg, #6b81ff, #b562ff);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -803,7 +803,7 @@ export default {
   text-align: center;
   font-size: 1.4rem;
   font-weight: 600;
-  background: linear-gradient(45deg, #ff6b81, #ffb562);
+  background: linear-gradient(45deg, #6b81ff, #b562ff);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -842,7 +842,7 @@ export default {
 }
 
 .prize-probability {
-  color: #ff6b81;
+  color: #6b81ff;
   font-weight: 600;
 }
 
@@ -957,7 +957,7 @@ export default {
 }
 
 .my-prize-badge {
-  background: linear-gradient(45deg, #ff6b81, #ff8a5b);
+  background: linear-gradient(45deg, #6b81ff, #8a5bff);
   color: white;
   padding: 6px 12px;
   border-radius: 15px;

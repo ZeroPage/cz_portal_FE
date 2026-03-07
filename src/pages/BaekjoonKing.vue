@@ -370,7 +370,7 @@ export default {
 .page-title {
   font-size: 3rem;
   font-weight: bold;
-  background: linear-gradient(45deg, #ff2e63, #ff6b81, #ffb562);
+  background: linear-gradient(45deg, #2e63ff, #6b81ff, #b562ff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -409,8 +409,8 @@ export default {
 }
 
 .tab-button.active {
-  background: linear-gradient(45deg, #ff2e63, #ff6b81);
-  border-color: #ff6b81;
+  background: linear-gradient(45deg, #2e63ff, #6b81ff);
+  border-color: #6b81ff;
   color: white;
 }
 
@@ -457,7 +457,7 @@ export default {
 
 .login-btn {
   display: inline-block;
-  background: linear-gradient(45deg, #ff2e63, #ff6b81);
+  background: linear-gradient(45deg, #2e63ff, #6b81ff);
   color: white;
   padding: 12px 25px;
   border-radius: 25px;
@@ -517,11 +517,11 @@ export default {
 
 .baekjoon-input:focus {
   outline: none;
-  border-color: #ff6b81;
+  border-color: #6b81ff;
 }
 
 .register-btn {
-  background: linear-gradient(45deg, #ff2e63, #ff6b81);
+  background: linear-gradient(45deg, #2e63ff, #6b81ff);
   border: none;
   color: white;
   padding: 12px 20px;
@@ -729,7 +729,7 @@ export default {
 }
 
 .round-title {
-  color: #ff6b81;
+  color: #6b81ff;
   text-align: center;
   margin-bottom: 20px;
   font-size: 1.3rem;
@@ -796,7 +796,7 @@ export default {
 }
 
 .winner-baekjoon {
-  color: #ff6b81;
+  color: #6b81ff;
   font-weight: 500;
   margin-bottom: 10px;
 }
