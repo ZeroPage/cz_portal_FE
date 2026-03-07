@@ -16,6 +16,7 @@ import TypingGame from "@/pages/TypingGame.vue";
 import TarotReading from "@/pages/TarotReading.vue";
 import CharacterBattle from "@/pages/CharacterBattle.vue";
 import LuckyDraw from "@/pages/LuckyDraw.vue";
+import StudySection from "@/pages/Study.vue"
 
 const routes = [
   { path: "/", component: Home },
@@ -39,6 +40,7 @@ const routes = [
   { path: "/lucky-draw", component: LuckyDraw },
   { path: "/login", component: () => import("@/pages/Login.vue") },
   { path: "/signup", component: () => import("@/pages/SignUp.vue") },
+  { path: "/study", component: StudySection }
 ];
 
 const router = createRouter({

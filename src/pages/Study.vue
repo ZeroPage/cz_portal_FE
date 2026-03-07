@@ -46,6 +46,9 @@ export default {
       try {
         const response = await fetch("/study.json");
         const data = await response.json();
+        data.studies.sort((a, b) => {
+          return b.id - a.id;
+        })
         studies.value = data.studies;
       } catch (error) {
         console.error("Error fetching studies:", error);
