@@ -8,7 +8,9 @@
       </transition>
       <transition name="fade-content">
         <h2 v-if="show" style="color: #fefefe;">
-          <span>활동 사이트입니다!</span>
+          여기는 ZeroPage 라운지입니다! <br><br>
+          상시 활동에 관한 서비스와 <br>
+          그 외 다양한 기능을 이용할 수 있습니다!
         </h2>
       </transition>
       <!-- <div class="qr-section">
