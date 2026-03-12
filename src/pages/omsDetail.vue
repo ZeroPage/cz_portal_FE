@@ -49,7 +49,7 @@ onMounted(async () => {
       pdfUrl.value = `/pdfs/oms${id}.pdf`;
 
       const pdfCheck = await fetch(pdfUrl.value, { method: 'HEAD' });
-      pdfExists.value = pdfCheck.ok;
+      pdfExists.value = pdfCheck.ok && pdfCheck.headers.get("Content-Type") === "application/pdf"; // 존재하지 않는 pdf 로드 시 뜬금없는 html 로드되는거 방지
     }
   } catch (error) {
     console.error('OMSS 데이터를 불러오지 못했습니다:', error);
