@@ -49,7 +49,7 @@ export default {
         data.studies.sort((a, b) => {
           return b.id - a.id;
         })
-        studies.value = data.studies;
+        studies.value = data.studies.filter(study => study.id >= 8); // id >= 8
       } catch (error) {
         console.error("Error fetching studies:", error);
       }
