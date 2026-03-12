@@ -68,7 +68,8 @@
                   required
                 />
                 <small class="contact-info">
-                  🏆 1, 2, 3등 상품 지급을 위한 연락처입니다. 행사 종료 후 파기됩니다.
+                  <!-- 🏆 1, 2, 3등 상품 지급을 위한 연락처입니다. 행사 종료 후 파기됩니다. -->
+                   🏆 원래는 소프트웨어 축제 박람회 때 상품 증정 목적으로 연락처 적는건데 지금은 안 적어도 됩니다.
                 </small>
               </div>
               
@@ -262,7 +263,7 @@ export default {
     const newCharacter = ref({
       name: '',
       description: '',
-      contact: ''
+      contact: '0'
     });
     const isCreating = ref(false);
     const createMessage = ref('');
@@ -281,7 +282,7 @@ export default {
 
     // 캐릭터 생성
     const createCharacter = async () => {
-      if (!newCharacter.value.name || !newCharacter.value.description || !newCharacter.value.contact) {
+      if (!newCharacter.value.name || !newCharacter.value.description) {
         createMessage.value = '모든 필드를 입력해주세요.';
         createMessageType.value = 'error';
         return;
@@ -291,6 +292,7 @@ export default {
       createMessage.value = '';
 
       try {
+        if (!newCharacter.value.contact) newCharacter.value.contact = '0'; // 연락처 공란인 경우 0 채움 (Nullable 아니라서)
         const response = await fetch(`${API_ROOT}/characters`, {
           method: 'POST',
           headers: {

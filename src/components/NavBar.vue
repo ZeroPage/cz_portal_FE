@@ -2,20 +2,24 @@
   <nav class="navbar">
     <div class="navbar-container" ref="navbarRef">
       <div class="logo">
-        <span class="logo-text">CLUG X ZeroPage</span>
-        <img src="/czlogo.png" alt="Logo" class="logo-img" />
+        <span class="logo-text">ZeroPage</span>
+        <img src="/zp-logo.png" alt="Logo" class="logo-img" />
       </div>
       <button class="toggle-button" @click="toggleMenu">☰</button>
       <ul class="nav-links" :class="{ open: isMenuOpen }">
         <li><router-link to="/" @click="closeMenu">Home</router-link></li>
-        <li><router-link to="/about" @click="closeMenu">About</router-link></li>
+        <li>
+          <router-link to="/notice" @click="closeMenu">Notice</router-link>
+        </li>
+        <li>
+          <router-link to="/study" @click="closeMenu"
+            >Study</router-link
+          >
+        </li>
         <li>
           <router-link to="/baekjoonking" @click="closeMenu"
             >BaekjoonKing</router-link
           >
-        </li>
-        <li>
-          <router-link to="/notice" @click="closeMenu">Notice</router-link>
         </li>
         <li>
           <router-link to="/oms_week" @click="closeMenu">OMS</router-link>

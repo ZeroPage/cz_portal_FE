@@ -3,16 +3,23 @@
     <div class="content">
       <transition name="fade-title">
         <h1 v-if="show" class="title">
-          <span class="full-title">CLUG X ZeroPage</span>
+          <span class="full-title">ZeroPage</span>
         </h1>
       </transition>
-      <div class="qr-section">
+      <transition name="fade-content">
+        <h2 v-if="show" style="color: #fefefe;">
+          여기는 ZeroPage 라운지입니다! <br><br>
+          상시 활동에 관한 서비스와 <br>
+          그 외 다양한 기능을 이용할 수 있습니다!
+        </h2>
+      </transition>
+      <!-- <div class="qr-section">
         <img
           src="/images/QR 코드.png"
           alt="동아리 신청 QR 코드"
           class="qr-code"
         />
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -79,7 +86,7 @@ export default {
   width: 100%;
   text-align: center;
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 .quiz-box {

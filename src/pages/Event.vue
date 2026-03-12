@@ -11,11 +11,14 @@
 
       <transition name="fade-content">
         <div v-if="show" class="event-grid">
-          <div class="event-card typing-game" @click="goToTypingGame">
+          <div class="event-card coming-soon">
             <div class="card-icon">⌨️</div>
             <h3>타자 빨리치기</h3>
             <p>빠르고 정확한 타이핑으로 최고 기록을 달성해보세요!</p>
-            <div class="card-hover-effect"></div>
+            <!-- <div class="card-hover-effect"></div> -->
+            <div class="coming-soon-overlay">
+              <span>준비 중</span>
+            </div>
           </div>
 
           <div class="event-card tarot" @click="goToTarot">
@@ -91,7 +94,7 @@ export default {
 }
 .fade-title-enter-from {
   opacity: 0;
-  transform: translateY(10px);
+  transform: translateY(-10px);
 }
 
 .fade-content-enter-active {
@@ -127,7 +130,7 @@ export default {
 }
 
 .title {
-  background: linear-gradient(45deg, #ff6b81, #ffb562, #a8e6cf, #88d8c0);
+  background: linear-gradient(45deg, #6b81ff, #b562ff, #cfa8e6, #d888c0);
   font-size: clamp(2.5rem, 6vw, 4.5rem);
   font-weight: 800;
   margin-bottom: 1rem;

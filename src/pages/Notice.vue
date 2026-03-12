@@ -95,6 +95,9 @@ export default {
           }
           return new Date(b.date) - new Date(a.date);
         });
+        // 3월 4일 공지부터 표시
+        const threshold = new Date("2026-03-04");
+        notices = notices.filter(item => new Date(item.date) >= threshold);
 
         this.notices = notices;
       } catch (error) {
