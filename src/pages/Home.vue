@@ -3,9 +3,23 @@
     <div class="content">
       <transition name="fade-title">
         <h1 v-if="show" class="title">
-          <span class="full-title">CLUG X ZeroPage</span>
+          <span class="full-title">ZeroPage</span>
         </h1>
       </transition>
+      <transition name="fade-content">
+        <h2 v-if="show" style="color: #fefefe;">
+          여기는 ZeroPage 라운지입니다! <br><br>
+          상시 활동에 관한 서비스와 <br>
+          그 외 다양한 기능을 이용할 수 있습니다!
+        </h2>
+      </transition>
+      <!-- <div class="qr-section">
+        <img
+          src="/images/QR 코드.png"
+          alt="동아리 신청 QR 코드"
+          class="qr-code"
+        />
+      </div> -->
     </div>
   </div>
 </template>
@@ -28,6 +42,20 @@ export default {
 </script>
 
 <style scoped>
+.qr-section {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.qr-code {
+  width: 200px;
+  height: auto;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
 .fade-title-enter-active {
   transition: opacity 0.8s ease, transform 0.6s ease;
 }
@@ -44,19 +72,21 @@ export default {
 }
 
 .home-container {
-  min-height: 100vh;
+  min-height: calc(100vh - 80px);
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
   padding: 5% 5% 0;
+  padding-top: 20px;
 }
+
 .content {
   max-width: 1400px;
   width: 100%;
   text-align: center;
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 .quiz-box {
@@ -87,29 +117,42 @@ export default {
 /* 반응형 */
 @media (max-width: 768px) {
   .home-container {
-    padding-top: 10%;
+    min-height: calc(100vh - 80px);
+    padding: 20px;
+    padding-top: 40px;
   }
+
+  .title {
+    font-size: 2.5rem;
+  }
+
   .question {
     font-size: 1.2rem;
   }
 }
 
 @media (max-width: 480px) {
+  .home-container {
+    padding: 15px;
+    padding-top: 30px;
+  }
+
   .title {
     font-size: 2rem;
   }
+
   .full-title {
     display: inline;
   }
+
   .short-title {
     display: none;
   }
-  .home-container {
-    padding-top: 15%;
-  }
+
   .description {
     font-size: 1rem;
   }
+
   .code {
     font-size: 0.85rem;
   }
