@@ -83,7 +83,7 @@
     {
       "id": 8,
       "name": "나 JAVA 봐라 🌱",
-      "currentMembers": 6,
+      "currentMembers": 7,
       "totalMembers": 8,
       "applicationCriteria": "C 언어 기초 정도만 알면 좋을듯?",
       "greeting": "소프 A+ 가자",
@@ -93,7 +93,7 @@
     {
       "id": 9,
       "name": "근본은 C지 🌱",
-      "currentMembers": 1,
+      "currentMembers": 2,
       "totalMembers": 4,
       "applicationCriteria": "없음",
       "greeting": "C언어 간단하게 배우고 백준 문제 풀어보는 스터디",
