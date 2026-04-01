@@ -9,8 +9,8 @@
       <transition name="fade-content">
         <h2 v-if="show" style="color: #fefefe;">
           여기는 ZeroPage 라운지입니다! <br><br>
-          ZPAI가 출시되었습니다 !!!!! <br>
-          지금 바로 ai.zeropage.org 에서 확인해보세요 !!!!!!
+          !!!!! ZPAI가 출시되었습니다 !!!!! <br>
+          !!! 지금 바로 ai.zeropage.org 에서 확인해보세요 !!!
         </h2>
       </transition>
       <!-- <div class="qr-section">
