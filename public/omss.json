@@ -110,6 +110,20 @@
     "subtitle": "캡챠란 무엇일까??",
     "date": "2026-05-13",
     "presenter": "한지성"
+  },
+  {
+    "id": 17,
+    "title": "컴퓨터가 보는 세상",
+    "subtitle": "cvml 기초 한번 다뤄보죠",
+    "date": "2026-05-21",
+    "presenter": "김규범"
+  },
+  {
+    "id": 18,
+    "title": "웹 개발 필수 교양",
+    "subtitle": "JWT에 대해 알아보자",
+    "date": "2026-05-27",
+    "presenter": "한지성"
   }
 ]
 
