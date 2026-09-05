@@ -1,8 +1,8 @@
 <template>
-  <div class="baekjoon-king-container">
+  <div class="doj-king-container">
     <div class="main-header">
-      <h1 class="page-title">🏆 백준킹</h1>
-      <p class="page-subtitle">백준 실력을 겨뤄보세요!</p>
+      <h1 class="page-title">🏆 DOJ킹</h1>
+      <p class="page-subtitle">DOJ 실력을 겨뤄보세요!</p>
     </div>
 
     <div class="content-tabs">
@@ -35,7 +35,7 @@
         <div class="login-message-card">
           <div class="login-icon">🔐</div>
           <h3>로그인이 필요합니다</h3>
-          <p>백준 프로필을 등록하려면 먼저 로그인해주세요.</p>
+          <p>DOJ 프로필을 등록하려면 먼저 로그인해주세요.</p>
           <router-link to="/login" class="login-btn"
             >로그인하러 가기</router-link
           >
@@ -44,12 +44,12 @@
 
       <div v-else class="profile-section">
         <div class="profile-card">
-          <h2>백준 프로필 등록</h2>
+          <h2>DOJ 프로필 등록</h2>
           <div class="form-group">
             <input
-              v-model="baekjoonId"
+              v-model="dojId"
               type="text"
-              placeholder="백준 아이디를 입력하세요"
+              placeholder="DOJ 아이디를 입력하세요"
               class="baekjoon-input"
               @keyup.enter="createProfile"
             />
@@ -62,7 +62,7 @@
             />
             <button
               @click="createProfile"
-              :disabled="!baekjoonId.trim() || isLoading"
+              :disabled="!dojId.trim() || isLoading"
               class="register-btn"
             >
               {{ isLoading ? "등록 중..." : "프로필 등록" }}
@@ -99,7 +99,7 @@
         <div v-else-if="rankingData.length > 0" class="ranking-list">
           <div
             v-for="(user, index) in sortedRanking"
-            :key="user.baekjoonId"
+            :key="user.dojId"
             class="ranking-item"
             :class="{
               'rank-1': index === 0,
@@ -123,13 +123,13 @@
             <div
               class="rating-diff"
               :class="{
-                positive: user.ratingDiff > 0,
-                negative: user.ratingDiff < 0,
-                neutral: user.ratingDiff === 0,
+                positive: user.solvedCountDiff > 0,
+                negative: user.solvedCountDiff < 0,
+                neutral: user.solvedCountDiff === 0,
               }"
             >
-              <span v-if="user.ratingDiff > 0">+{{ user.ratingDiff }}</span>
-              <span v-else-if="user.ratingDiff < 0">{{ user.ratingDiff }}</span>
+              <span v-if="user.solvedCountDiff > 0">+{{ user.solvedCountDiff }}</span>
+              <span v-else-if="user.solvedCountDiff < 0">{{ user.solvedCountDiff }}</span>
               <span v-else>0</span>
             </div>
           </div>
@@ -155,7 +155,7 @@
       <div v-else class="hall-of-fame-section">
         <div class="hall-header">
           <h2>🏅 명예의 전당</h2>
-          <p>역대 백준킹 우승자들</p>
+          <p>역대 DOJ킹 우승자들</p>
         </div>
 
         <div v-if="loadingHistory" class="loading">
@@ -172,7 +172,7 @@
             <div class="winners-podium">
               <div
                 v-for="(winner, index) in round"
-                :key="winner.baekjoonId"
+                :key="winner.dojId"
                 class="winner-card"
                 :class="`place-${winner.rank}`"
               >
@@ -183,7 +183,7 @@
                 </div>
                 <div class="winner-info">
                   <div class="winner-nickname">{{ winner.nickName }}</div>
-                  <div class="winner-baekjoon">{{ winner.baekjoonId }}</div>
+                  <div class="winner-baekjoon">{{ winner.dojId }}</div>
                 </div>
               </div>
             </div>
@@ -200,11 +200,11 @@
 import { API_ROOT } from "@/api.js";
 
 export default {
-  name: "BaekjoonKing",
+  name: "DOJKing",
   data() {
     return {
       activeTab: "ranking",
-      baekjoonId: "",
+      dojId: "",
       displayName: "",
       isLoading: false,
       profileMessage: "",
@@ -220,7 +220,9 @@ export default {
       return !!localStorage.getItem("token");
     },
     sortedRanking() {
-      return [...this.rankingData].sort((a, b) => b.ratingDiff - a.ratingDiff);
+      return [...this.rankingData].sort(
+        (a, b) => b.solvedCountDiff - a.solvedCountDiff
+      );
     },
     groupedWinners() {
       const groups = [];
@@ -251,13 +253,13 @@ export default {
   },
   methods: {
     async createProfile() {
-      if (!this.baekjoonId.trim()) return;
+      if (!this.dojId.trim()) return;
 
       this.isLoading = true;
       this.profileMessage = "";
 
       const payload = {
-        baekjoonId: this.baekjoonId.trim(),
+        dojId: this.dojId.trim(),
       };
 
       // displayName이 입력된 경우에만 포함
@@ -266,7 +268,7 @@ export default {
       }
 
       try {
-        const response = await fetch(`${API_ROOT}/baekjoon/create-profile`, {
+        const response = await fetch(`${API_ROOT}/doj/create-profile`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -278,9 +280,9 @@ export default {
         const result = await response.json();
 
         if (response.status === 200) {
-          this.profileMessage = "백준 프로필이 성공적으로 등록되었습니다!";
+          this.profileMessage = "DOJ 프로필이 성공적으로 등록되었습니다!";
           this.messageType = "success";
-          this.baekjoonId = "";
+          this.dojId = "";
           this.displayName = "";
 
           // 랭킹 새로고침
@@ -306,7 +308,7 @@ export default {
     async loadRanking() {
       this.loadingRanking = true;
       try {
-        const response = await fetch(`${API_ROOT}/baekjoon/get-profile`, {
+        const response = await fetch(`${API_ROOT}/doj/get-profile`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -328,7 +330,7 @@ export default {
       this.loadingHistory = true;
       try {
         const response = await fetch(
-          `${API_ROOT}/baekjoon/get-winner-history`,
+          `${API_ROOT}/doj/get-winner-history`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -352,7 +354,7 @@ export default {
 </script>
 
 <style scoped>
-.baekjoon-king-container {
+.doj-king-container {
   min-height: 100vh;
   background: #0a0a0a;
   padding: 20px;

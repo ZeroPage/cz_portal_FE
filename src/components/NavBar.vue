@@ -17,8 +17,8 @@
           >
         </li>
         <li>
-          <router-link to="/baekjoonking" @click="closeMenu"
-            >BaekjoonKing</router-link
+          <router-link to="/dojking" @click="closeMenu"
+            >DOJKing</router-link
           >
         </li>
         <li>

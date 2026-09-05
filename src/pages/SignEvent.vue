@@ -3,13 +3,13 @@
     <div class="header">
       <transition name="fade-title">
         <h1 v-if="show" class="title">
-          <span class="full-title">JOIN THE BAEKJOONKING</span>
+          <span class="full-title">JOIN THE DOJKing</span>
           <span class="short-title">JOIN BJKING</span>
         </h1>
       </transition>
 
       <transition name="fade-content">
-        <h2 v-if="show" class="subtitle">Challenge Yourself to Become the Next Baekjoon King!</h2>
+        <h2 v-if="show" class="subtitle">Challenge Yourself to Become the Next DOJKing!</h2>
       </transition>
     </div>
 
@@ -36,7 +36,7 @@
             v-model="displayNickname"
             placeholder="미입력시 기본 닉네임이 사용됩니다"
           />
-          <small class="form-hint">백준킹 랭킹에서 표시될 별도의 닉네임입니다 (비워두면 기본 닉네임 사용)</small>
+          <small class="form-hint">DOJKing 랭킹에서 표시될 별도의 닉네임입니다 (비워두면 기본 닉네임 사용)</small>
         </div>
 
         <button class="submit-btn" @click="startEvent">시작하기</button>
