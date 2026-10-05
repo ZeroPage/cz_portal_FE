@@ -234,9 +234,6 @@ export default {
       });
 
       return [...groups.entries()]
-        .sort(([firstRound], [secondRound]) =>
-          firstRound.localeCompare(secondRound)
-        )
         .map(([roundKey, winners]) => ({
           roundKey,
           winners: [...winners].sort((a, b) => a.rank - b.rank),
