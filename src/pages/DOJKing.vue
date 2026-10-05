@@ -165,13 +165,13 @@
         <div v-else-if="winnerHistory.length > 0" class="winner-rounds">
           <div
             v-for="(round, roundIndex) in groupedWinners"
-            :key="roundIndex"
+            :key="round.roundKey"
             class="winner-round"
           >
             <h3 class="round-title">{{ roundIndex + 1 }}회차</h3>
             <div class="winners-podium">
               <div
-                v-for="(winner, index) in round"
+                v-for="winner in round.winners"
                 :key="winner.dojId"
                 class="winner-card"
                 :class="`place-${winner.rank}`"
@@ -225,24 +225,22 @@ export default {
       );
     },
     groupedWinners() {
-      const groups = [];
-      let currentGroup = [];
-      let currentRound = null;
+      const groups = new Map();
 
       this.winnerHistory.forEach((winner) => {
-        // 각 그룹은 rank가 1부터 시작하므로, rank가 1이면 새로운 회차
-        if (winner.rank === 1 && currentGroup.length > 0) {
-          groups.push([...currentGroup]);
-          currentGroup = [];
-        }
-        currentGroup.push(winner);
+        const roundKey = winner.roundKey;
+        if (!groups.has(roundKey)) groups.set(roundKey, []);
+        groups.get(roundKey).push(winner);
       });
 
-      if (currentGroup.length > 0) {
-        groups.push(currentGroup);
-      }
-
-      return groups;
+      return [...groups.entries()]
+        .sort(([firstRound], [secondRound]) =>
+          firstRound.localeCompare(secondRound)
+        )
+        .map(([roundKey, winners]) => ({
+          roundKey,
+          winners: [...winners].sort((a, b) => a.rank - b.rank),
+        }));
     },
   },
   mounted() {
